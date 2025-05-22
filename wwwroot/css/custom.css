@@ -1,0 +1,96 @@
+﻿.navbar-brand {
+    margin-right: 0px;
+    padding: 0.7rem 0 0.3rem;
+}
+
+.navbar-brand img {
+    height: 1.5rem;
+}
+
+.page-title {
+    padding: .7rem 0;
+}
+.card-header {
+    padding: .5375rem 1.25rem;
+}
+.card-footer {
+    padding: .3175rem 0.75rem;
+}
+.mycustom label:not(.validation-invalid-label) {
+    display: inline-block;
+    margin-bottom: .1rem;
+    font-size: .7125rem;
+    font-weight: 600;
+    color: #00838F;
+}
+.validation-invalid-label {
+    display: inline-block;
+    margin-bottom: .1rem;
+    font-size: .7125rem;
+    font-weight: 600;
+}
+.mycustom .form-group {
+    margin-bottom: 0.1rem;
+}
+
+.mycustom .table td, .mycustom .table th {
+    padding: .3rem 0.3rem;
+    font-size: 0.7425rem
+}
+.mycustom .btn, .mycustom .form-control {
+    font-weight: 500;
+    /*padding: .3175rem .575rem;*/
+    line-height: 1.4385;
+    border-radius: .1875rem;
+    height: calc(1em + .875rem + 2px);
+}
+.form-control.ar {
+    font-weight: 700;
+}
+
+.multiselect-selected-text, .form-control {
+    color: #37474F;
+}
+.form-control {
+    border-color: #4DB6AC; /*#B3D2C8*/
+}
+.multiselect.btn-light, .multiselect-clear-filter {
+    border-color: #4DB6AC;
+}
+.ar {
+    direction: rtl;
+}
+.en {
+    direction: ltr;
+}
+.req::after {
+    content: " * ";
+    color:red;
+}
+
+.mycustom .uniform-uploader .filename {
+    padding: .2375rem .875rem;
+}
+.content {
+    padding: 0.9rem 0.9rem;
+}
+.card {
+    margin-bottom: 0.9rem;
+}
+
+.sidebar {
+    width: 14.875rem;
+}
+.navbar-expand-md .navbar-brand {
+    min-width: 13.625rem;
+}
+/*.nav-sidebar .nav-link {
+    padding: .75rem 0.9rem;
+}
+nav-group-sub li a {
+    padding: .625rem 1.25rem;
+}
+*/
+.nav-sidebar .nav-link i {
+    margin-right: 0.9rem;
+}

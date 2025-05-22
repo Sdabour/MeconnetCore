@@ -1,0 +1,8 @@
+﻿@import "custom.css";
+
+.navbar-brand {
+    margin-left:0px;
+}
+.nav-sidebar .nav-link i {
+    margin-left: 0.9rem;
+}

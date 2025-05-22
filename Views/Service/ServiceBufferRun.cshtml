@@ -1,0 +1,293 @@
+﻿@using AlgorithmatENM.ENM.ENMBiz;
+@using AlgorithmatENM.ERP.ERPBusiness;
+@{
+    ViewBag.Title = "Buffer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/js/demo_charts/raphael.min.js"></script>
+<link href="~/css/morris.css" rel="stylesheet" />
+<link href="~/Content/Modal.css" rel="stylesheet" />
+<script src="~/Scripts/JqueryLatest.js"></script>
+<script src="~/js/main/jquery.min.js"></script>
+<script src="~/scripts/erp/singleidvalue.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/ENM/Measurement.js"></script>
+<script src="~/Scripts/ENM/Meter.js"></script>
+<script src="~/Scripts/ENM/MeterMeasure.js"></script>
+<script src="~/scripts/enm/metergroup.js"></script>
+ 
+<script src="~/scripts/erp/mo.js"></script>
+<script src="~/scripts/erp/moj.js"></script>
+<script src="~/Scripts/ENM/MeterMeasure.js"></script>
+<script src="~/Scripts/ENM/MeasureAlert.js"></script>
+
+<script src="~/Scripts/ENM/MeasureAlertJS.js"></script>
+<script src="~/Scripts/ENM/Service.js"></script>
+<script src="~/Scripts/ENM/ServiceJ.js"></script>
+<script src="~/scripts/erp/bufferj.js"></script>
+<script src="~/scripts/erp/buffertype.js"></script>
+
+<script src="~/scripts/erp/measurementunit.js"></script>
+<script src="~/scripts/erp/bufferhubj.js"></script>
+
+<script src="~/scripts/erp/product.js"></script>
+<script src="~/Scripts/UMS/UMSJ.js"></script>
+<script src="~/Scripts/UMS/User.js"></script>
+<script src="~/js/morris.min.js"></script>
+
+
+<script type="text/javascript">
+
+    setTimeout(FillBufferGroup, 1000);
+    $(document).ready(FillMOLst());
+
+</script>
+
+<div>
+   
+    
+    <div class="form-row pt-1">
+        <div class="col">
+           
+            <div class="form-row">
+              
+                <div class="col">
+                    <input type="hidden" id="lblIsBuffer" />
+                    <div id="myMeterModal" class="modal" tabindex="-1">
+                        <div class="modal-content">
+                            <span id="MeterClose" class="close" onclick="document.getElementById('myMeterModal').style.display = 'none';">&times;</span>
+                            <div class="form-row">
+                                <div class="col-6">
+                                    <label class="text-black">
+
+                                    </label>
+                                </div>
+                            </div>
+
+
+
+
+                            <input type="hidden" id="lblMeterGroup" value="0" />
+                            <div class="table-responsive" id="dvMeter">
+                                <table class="table" id="tblMeter">
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+
+                <div class="col">
+                    <div id="myMeasurementModal" class="modal" tabindex="-1">
+                        <div class="modal-content">
+                            <span id="MeasurementClose" class="close" onclick="document.getElementById('myMeasurementModal').style.display = 'none';">&times;</span>
+                            <div class="form-row">
+                                <div class="col-6">
+                                    <label class="text-black">
+
+                                    </label>
+                                </div>
+                            </div>
+
+
+
+
+                            <input type="hidden" id="lblMeasureMeter" value="0" />
+                            <div class="table-responsive" id="dvMeasurement">
+                                <table class="table" id="tblMeasurement">
+                                    <tr><td style="background-color:yellow;"><span style="width:50%;background-color:red"></span></td></tr>
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+
+                <div class="col">
+                    <div id="myMeterMeasureModal" class="modal" tabindex="-1">
+                        <div class="modal-content">
+                            <span id="MeterMeasureClose" class="close" onclick="return CloseMeterMeasureModal();">&times;</span>
+                            <div class="form-row">
+                                <div class="col-6">
+                                    <label class="text-black" style=" background-color: aliceblue;
+        text-align: center;" id="lblMeterMeasureDesc">
+
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div id="dvGraph" style="height: 250px;">
+                                    </div>
+                                </div>
+                            </div><br />
+                            <div class="form-row">
+                                <div class="col-1">
+                                    من
+                                </div>
+                                <div class="col-2">
+                                    <input type="date" class="form-control form-control-sm" id="dtMeasureFrom" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                </div>
+                                <div class="col-1">
+                                    الى
+                                </div>
+                                <div class="col-2">
+                                    <input type="date" class="form-control form-control-sm" id="dtMeasureTo" value="@DateTime.Now.ToString("yyy-MM-dd")" />
+                                </div>
+                            </div><br />
+                            <div class="form-row">
+                                <div class="col-1">
+                                    <label style="background-color:aliceblue;text-align:center;">value</label>
+                                </div>
+                                <div class="col-1">
+                                    <label id="lblScalarValue" style=" background-color: aliceblue;
+        text-align: center;"></label>
+                                </div>
+                            </div><br />
+
+                            <input type="hidden" id="lblMeter" value="0" />
+                            <input type="hidden" id="lblMeasureType" value="0" />
+                            <input type="hidden" id="lblGraphJson" value="" />
+                            <input type="hidden" id="lblGraphJsonY" value="" />
+                            <input type="hidden" id="lblGraphJsonLabel" value="" />
+                            <input type="hidden" id="lblGraphJsonX" value="" />
+
+                            <div class="table-responsive" id="dvMeterMeasure">
+                                <table class="table" id="tblMeterMeasure">
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <div class="table-responsive table table-bordered table table-hover table-striped" id="dvMeterGroup">
+    </div>
+    <br />
+    <div class="form-row">
+
+        <div class="col-1">
+            <input type="checkbox" class="form-control" id="chkGroupDateRange" />
+        </div>
+        <div class="col-2">
+            <input type="date" class="form-control form-control-sm" id="dtGroupDateFrom" />
+        </div>
+        <div class="col-2">
+            <input type="date" class="form-control form-control-sm" id="dtGroupDateTo" />
+        </div>
+        <div class="col-2">
+            <input type="button" class="form-control form-control-sm" value="ReFill" id="btnRefill" onclick="FillBufferGroup()" />
+        </div>
+    </div>
+    <div id="dvGroupCard" class="content" style="max-height:max-content;scroll-behavior:auto;">
+    </div>
+
+
+</div>
+
+<div id="myUserLogInModal" class="modal" tabindex="-1">
+    <div class="modal-content">
+        <input type="hidden" id="lbStatus" value="0"/>
+        <input type="hidden" id="lblMOID" value="0" />
+        <span id="UserLoginClose" class="close" onclick="document.getElementById('myUserLogInModal').style.display='none'">&times;</span>
+        <div class="e-content">
+            <div class="form-row">
+                <div class="col-2">
+                    اسم المستخدم
+                </div>
+                <div class="col-6">
+                    <input type="text" placeholder="User Name" id="txtUserName" class="form-control" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-2">
+                    كلمة المرور
+                </div>
+                <div class="col-6">
+                    <input type="password" placeholder="Password" id="txtPassword" class="form-control" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-2">
+                </div>
+                <div class="col-6">
+                    <input type="button" value="Login" id="btnLogin" onclick="return EditMOStatusByUser();" />
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div id="myMOListDisplayModal" class="modal" tabindex="-1">
+    <div class="modal-content">
+       
+        <span id="MOListDisplayClose" class="close" onclick="document.getElementById('myMOListDisplayModal').style.display='none'">&times;</span>
+      <div class="table-responsive" id="tblMODisplay">
+
+      </div>
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+    function printDiv(strHeaderDiv, strBodyDiv) {
+        var vrCSS = "<link href=\"~/wwwroot/css/bootstrap.min.css\" rel=\"stylesheet\" type = \"text/css\">";
+        vrCSS += "<link href=\"~/wwwroot/css/bootstrap_limitless.min.css\" rel=\"stylesheet\" type=\"text/css\">" +
+            "<link href= \"~/css/layout.min.css\" rel = \"stylesheet\" type = \"text/css\" >" +
+            "<link href=\"~/wwwroot/css/components.min.css\" rel=\"stylesheet\" type=\"text/css\">" +
+            "<link href=\"~/css/colors.min.css\" rel=\"stylesheet\" type=\"text/css\">" +
+            "<link href=\"~/wwwroot/css/custom.css\" rel=\"stylesheet\" type=\"text/css\">";
+
+
+        vrCSS = " <link href=\"/wwwroot/css/bootstrap.min.ar.css\" rel=\"stylesheet\" type=\"text/css\">" +
+            "<link href=\"/wwwroot/css/bootstrap_limitless.min.ar.css\" rel =\"stylesheet\" type =\"text/css\" >" +
+            "<link href=\"/wwwroot/css/layout.min.ar.css\" rel=\"stylesheet\" type=\"text/css\">" +
+            "<link href=\"/wwwroot/css/components.min.ar.css\" rel=\"stylesheet\" type=\"text/css\">" +
+            "<link href=\"/css/colors.min.ar.css\" rel=\"stylesheet\" type=\"text/css\">" +
+            "<link href=\"/wwwroot/css/custom.ar.css\" rel=\"stylesheet\" type=\"text/css\">";
+        var divDvHeader = "";
+        if (document.getElementById(strHeaderDiv) != null)
+            document.getElementById(strHeaderDiv).innerHTML = document.getElementById(strHeaderDiv).innerHTML;
+        var divContents = "";
+        if (document.getElementById(strBodyDiv) != null) { divContents = document.getElementById(strBodyDiv).innerHTML; }
+
+        var a = window.open('', '', 'height=500, width=500');
+        a.document.write(vrCSS);
+        a.document.write('<html>');
+        a.document.write('<html>');
+
+
+        a.document.write('<body dir=\"rtl\">');
+        a.document.write(divDvHeader);
+        a.document.write(divContents);
+        a.document.write('</body></html>');
+
+
+    }
+
+
+
+</script>

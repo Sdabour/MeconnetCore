@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2025-05-19T04:47:29.8460386Z;False|2025-05-12T06:39:49.4873167+03:00;True|2025-05-11T22:21:24.5902746+03:00;True|2025-05-11T20:34:40.3757840+03:00;True|2025-04-28T06:52:02.8062433+03:00;True|2025-04-25T18:14:39.3166832+03:00;True|2025-03-09T22:14:09.7846576+02:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="wwwroot/Scripts/ENM/beep-12.wav">
+      <publishTime>01/10/2024 16:45:39</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/MeasureAlert.js.map">
+      <publishTime>04/26/2025 09:53:26</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/MeasureAlert.ts">
+      <publishTime>01/10/2024 22:19:32</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/MeasureAlertJS.js">
+      <publishTime>01/10/2024 22:21:03</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/Measurement.js.map">
+      <publishTime>04/26/2025 09:53:26</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/Measurement.ts">
+      <publishTime>10/03/2024 07:35:52</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/Meter.js.map">
+      <publishTime>04/26/2025 09:53:26</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/Meter.ts">
+      <publishTime>10/01/2024 07:22:43</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/MeterGroup.js">
+      <publishTime>05/12/2025 06:16:22</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/MeterGroup.js.map">
+      <publishTime>04/26/2025 09:53:28</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/MeterGroup.ts">
+      <publishTime>05/20/2025 09:47:39</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/MeterMeasure.js.map">
+      <publishTime>04/26/2025 09:53:26</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/MeterMeasure.ts">
+      <publishTime>04/24/2025 06:00:59</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/Service.js.map">
+      <publishTime>04/26/2025 09:53:26</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/Service.ts">
+      <publishTime>08/06/2023 23:36:33</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/ServiceJ.js">
+      <publishTime>04/27/2025 20:52:58</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/Tank.js.map">
+      <publishTime>04/26/2025 09:53:26</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/ENM/Tank.ts">
+      <publishTime>09/30/2024 05:21:01</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

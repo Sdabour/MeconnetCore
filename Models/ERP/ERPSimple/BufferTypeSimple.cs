@@ -9,10 +9,10 @@ namespace AlgorithmatENM.ERP.ERPBusiness
     {
 
         #region Properties
-        public int ID;
-        public string Code;
-        public string NameA;
-        public string NameE;
+        public int ID{ set; get; }
+        public string Code{ set; get; }
+        public string NameA{ set; get; }
+        public string NameE{ set; get; }
         #endregion
     }
 }

@@ -1,0 +1,441 @@
+﻿@using Microsoft.AspNetCore.Html
+@using SharpVision.UMS.UMSBusiness;
+@using SharpVision.SystemBase;
+@using AlgorithmatENM.ERP.ERPBusiness;
+
+@{
+
+    var dir = "rtl";
+    var twoLetter = "ar";
+}
+
+<!DOCTYPE html>
+@*<html lang="en" dir="rtl">*@
+
+<html lang="@twoLetter" dir="@dir">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="~/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+   
+    <script src="~/scripts/erp/mo.js"></script>
+<script src="~/scripts/erp/moj.js"></script>
+<link href="~/Content/Modal.css" rel="stylesheet" />
+    @{
+
+        if (dir != "rtl")
+        {
+            <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+            <link href="~/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+            <link href="~/css/layout.min.css" rel="stylesheet" type="text/css">
+            <link href="~/css/components.min.css" rel="stylesheet" type="text/css">
+            <link href="~/css/colors.min.css" rel="stylesheet" type="text/css">
+            <link href="~/css/custom.css" rel="stylesheet" type="text/css">
+        }
+        else
+        {
+            <link href="~/css/bootstrap.min.ar.css" rel="stylesheet" type="text/css">
+            <link href="~/css/bootstrap_limitless.min.ar.css" rel="stylesheet" type="text/css">
+            <link href="~/css/layout.min.ar.css" rel="stylesheet" type="text/css">
+            <link href="~/css/components.min.ar.css" rel="stylesheet" type="text/css">
+            <link href="~/css/colors.min.ar.css" rel="stylesheet" type="text/css">
+            <link href="~/css/custom.ar.css" rel="stylesheet" type="text/css">
+        }
+    }
+
+
+
+
+
+
+
+</head>
+
+<body class="navbar-top">
+   
+    @{
+        UserBiz objUserBiz = SysData.CurrentUser;
+        if (objUserBiz == null  ||objUserBiz.ID == 0)
+        {
+            Context.Response.Redirect("login/index");
+        }
+        
+        //UserBiz.CurrentUser = objUserBiz;
+        SystemBiz objSystemBiz = new SystemBiz() { ID =SysData.SysID};
+        MenuNodeCol _SysNodeCol = objSystemBiz.NodeCol;
+        MenuNodeCol _NodeCol = _SysNodeCol.AuthorisedMainNodeCol;
+
+        MenuNodeCol objNodeCol = new MenuNodeCol();
+        object objController = new object();
+
+        object objMethod = new object();
+        ViewContext.RouteData.Values.TryGetValue("controller", out objController);
+        ViewContext.RouteData.Values.TryGetValue("action", out objMethod);
+        string strAction = objController.ToString() + "/" + objMethod.ToString();
+
+
+        if (objController.ToString() != "Home" && ((_SysNodeCol.CheckNodeName(strAction) && !_NodeCol.CheckNodeName(strAction))))
+        {
+            new RedirectResult("~/login/index");
+
+        }
+        string FillNode()
+        {
+            string Returned = "";
+            foreach (MenuNodeBiz objNode in _NodeCol)
+            {
+                if (!objNode.IsNotDisplayed && !objNode.IsStopped)
+                    Returned += FillNodeCol(objNode.Name, objNode.Children);
+
+            }
+
+
+            return Returned;
+        }
+        string FillNodeCol(string strText, MenuNodeCol objCol)
+        {
+            string Returned = "";
+            if (strText == "" && (objCol == null || objCol.Count == 0))
+                return "";
+            string strClass = objCol != null && objCol.Count > 0 ? "nav-item nav-item-submenu" : "nav-item";
+            Returned += @"<li class=""" + strClass + @""">";
+
+            if (strText != "")
+            {
+                Returned += @"<a href = ""#"" class=""nav-link"">";
+                if (objCol != null && objCol.Count > 0)
+                    Returned += @"<i class=""icon-copy""></i>";
+                Returned += " <span>" + strText + @"</span></a>";
+
+            }
+
+            string strUrl = "";
+            if (objCol != null && objCol.Count > 0)
+            { Returned += @"<ul class=""nav nav-group-sub"" data-submenu-title=""Layouts"" >"; }
+            foreach (MenuNodeBiz objNodeBiz in objCol)
+            {
+                if (objNodeBiz.IsNotDisplayed)
+                    continue;
+                if (objNodeBiz.Children.Count == 0)
+                {
+                    Returned += @"<li  class=""nav-item"">";
+                    strUrl = /*Request.Url.Scheme + "://" + Request.Url.Authority +*/ Url.Content("~/" + objNodeBiz.AppliedURL);
+                    if (objNodeBiz.AppliedURL != "")
+                    {
+                        Returned += @"<a href=""" + strUrl + @""" class=""nav-link"">";
+                    }
+                    Returned += "<span>" + objNodeBiz.Name + "</span>";
+                    // Returned += @"<i class=""icon-copy""></i> <span>" + objNodeBiz.Name + @"</span>";
+                    if (objNodeBiz.AppliedURL != "")
+                    {
+                        Returned += "</a>";
+                    }
+                    Returned += "</li>";
+                }
+                else
+                    Returned += FillNodeCol(objNodeBiz.Name, objNodeBiz.Children);
+
+
+            }
+            if (objCol != null && objCol.Count > 0)
+            { Returned += "</ul>"; }
+            Returned += "</li>";
+            return Returned;
+        }
+    }
+    <!-- Main navbar -->
+
+    <div class="navbar navbar-expand-md navbar-dark fixed-top">
+        <div class="navbar-brand">
+
+            <img src="~/images/logo_light.png" alt="">
+
+        </div>
+        <div class="d-md-none">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
+                <i class="icon-tree5"></i>
+            </button>
+            <button class="navbar-toggler sidebar-mobile-main-toggle" type="button">
+                <i class="icon-paragraph-justify3"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-mobile">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block">
+                        <i class="icon-paragraph-justify3"></i>
+                    </a>
+                </li>
+            </ul>
+
+
+            <span class="mr-md-auto"></span>
+            <ul class="navbar-nav">
+                <li class="nav-item justify-content-between">
+                </li>
+    
+            </ul>
+               <span class="mr-md-auto"></span>
+            <ul class="navbar-nav">
+                 @{
+        MOCol objCreatedRunningCol = MOCol.CreatedRuningCol;
+        List<MOSimple> lstMo = objCreatedRunningCol.Cast<MOBiz>().Select(x => x.GetSimple()).ToList();
+        string strMO = System.Text.Json.JsonSerializer.Serialize(lstMo);
+        
+
+    }
+                <input type="hidden" id="lblAllMO" name="lblAllMO" value='@strMO' />
+                <li class="nav-item dropdown">
+                    <a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
+                        <i class="icon-bubbles4"></i>
+                        <span class="d-md-none ml-2">MO</span>
+                        <span class="badge badge-pill bg-warning-400 ml-auto ml-md-0" id="lblMOCount"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right dropdown-content wmin-md-350">
+                        <div class="dropdown-content-header">
+                            <span class="font-weight-semibold">MO</span>
+                            
+
+                        </div>
+                        <div class="dropdown-content-body dropdown-scrollable">
+                            <ul class="media-list" id="ulMO" name="ulMO">
+                            </ul>
+                        </div>
+
+
+                        <div class="dropdown-content-footer justify-content-center p-0">
+                           
+                            <a href="#" onclick="return ShowMODisplayModal();" class="bg-light text-grey w-100 py-2" data-popup="tooltip" title="Load more"><i class="icon-menu7 d-block top-0"></i></a>
+                        </div>
+                    </div>
+                </li>
+
+
+
+
+                <li class="nav-item justify-content-between">
+
+                </li>
+
+                
+                <li class="nav-item">
+
+                    <a href="~/LogIn/logOut" class="navbar-nav-link">
+                        <i class="icon-switch2"></i>
+                        <span class="d-md-none ml-2">Logout</span>
+                    </a>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+    <!-- /main navbar -->
+    <!-- Page content -->
+    <div class="page-content">
+        <!-- Main sidebar -->
+        <div class="sidebar sidebar-dark sidebar-main sidebar-expand-md">
+            <!-- Sidebar mobile toggler -->
+            <div class="sidebar-mobile-toggler text-center">
+                <a href="#" class="sidebar-mobile-main-toggle">
+                    <i class="icon-arrow-left8"></i>
+                </a>
+                Navigation
+                <a href="#" class="sidebar-mobile-expand">
+                    <i class="icon-screen-full"></i>
+                    <i class="icon-screen-normal"></i>
+                </a>
+            </div>
+            <!-- /sidebar mobile toggler -->
+            <!-- Sidebar content -->
+            <div class="sidebar-content">
+                <!-- User menu -->
+
+                <div class="sidebar-user bg-teal-800">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="mr-3">
+                                <a href="#user-nav" data-toggle="collapse"><img src="~/images/image.png" width="38" height="38" class="rounded-circle" alt=""></a>
+                            </div>
+
+                            <div class="media-body">
+                                @{
+                                    string strUser =objUserBiz== null||objUserBiz.ID ==0?"":( objUserBiz.EmployeeBiz.ID == 0 ?objUserBiz.Name:objUserBiz.EmployeeBiz.Name);
+                                }
+                                <div class="media-title font-weight-semibold"><a href="#user-nav" data-toggle="collapse"><span class="text-white">@strUser</span></a></div>
+                                
+                            </div>
+
+                            <div class="ml-3 align-self-center">
+                                <a href="#user-nav" class="text-white" data-toggle="collapse"></a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="collapse" id="user-nav">
+                        <ul class="nav nav-sidebar">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+
+                                    <i class="icon-user-plus"></i>
+                                    <span>Myprofile</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/ar/ChangePassword" class="nav-link">
+                                    <i class="icon-comment-discussion"></i>
+                                    <span>Messages</span>
+                                    <span class="badge bg-teal-400 badge-pill align-self-center ml-auto">58</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Login/ChangePasswordIndex" class="nav-link">
+                                    <i class="icon-key"></i>
+                                    <span>ChangePassword</span>
+                                </a>
+                            </li>
+                           
+                            <li class="nav-item">
+
+                                <a href="~/LogIn/logOut" class="nav-link">
+                                    <i class="icon-switch2"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                @{
+                    string strTemp = "";
+                }
+
+                <!-- /user menu -->
+                <!-- Main navigation -->
+                <div class="card card-sidebar-mobile">
+                    <ul class="nav nav-sidebar nav active" data-nav-type="accordion">
+                        <!-- Main -->
+                        <!-- /main -->
+                        @(new HtmlString(FillNode()))
+                    </ul>
+                </div>
+                <!-- /main navigation -->
+            </div>
+            <!-- /sidebar content -->
+        </div>
+        <!-- /main sidebar -->
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Page header -->
+            <div class="page-header page-header-light">
+                <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline  bg-teal-800">
+                    <div class="d-flex">
+                        <div class="breadcrumb">
+                            <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                            <a href="#" class="breadcrumb-item">Link</a>
+                            <span class="breadcrumb-item">Current</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page header -->
+            <!-- Content area -->
+            <div class="content" style="min-height: 500px; overflow-x: scroll;">
+                @RenderBody()
+
+            </div>
+
+            <!-- /content area -->
+            <!-- Footer -->
+            <div class="navbar navbar-expand-lg navbar-light">
+                <div class="text-center d-lg-none w-100">
+                    <button type="button" class="navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#navbar-footer">
+                        <i class="icon-unfold mr-2"></i>
+                        Footer
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-footer">
+                    <span class="navbar-text">
+                        &copy; @DateTime.Now.Year.ToString(). <a href="#">Degla Control Panel</a> by <a href="#" target="_blank">IS Team</a>
+                    </span>
+
+                    <ul class="navbar-nav ml-lg-auto">
+
+
+                        <li class="nav-item">
+                            <a href="#" class="navbar-nav-link font-weight-semibold">
+                                <span class="text-pink-400">
+                                    <i class="icon-lifebuoy mr-2"></i>
+                                    IS Support
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /footer -->
+        </div>
+        <!-- /main content -->
+    </div>
+    <div id="myMOListDisplayModal" class="modal" tabindex="-1">
+    <div class="modal-content">
+       
+        <span id="MOListDisplayClose" class="close" onclick="document.getElementById('myMOListDisplayModal').style.display='none'">&times;</span>
+      <div class="table-responsive" id="tblMODisplay">
+
+      </div>
+
+
+    </div>
+</div>
+
+    <!-- /page content -->
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+
+  
+    <script src="~/scripts/jquery/jquery.min.js"></script>
+    <script src="~/scripts/jquery/jquery.slim.min.js"></script>
+    <script src="~/scripts/jquery/jquery.slim.js"></script>
+    <script src="~/scripts/jquery/jquery.js"></script>
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+    
+    <script src="~/js/main/bootstrap.bundle.min.js"></script>
+    <script src="~/js/plugins/loaders/blockui.min.js"></script>
+    <script src="~/js/plugins/forms/styling/uniform.min.js"></script>
+    <script src="~/js/plugins/notifications/pnotify.min.js"></script>
+    <script src="~/js/plugins/notifications/jgrowl.min.js"></script>
+    <script src="~/js/plugins/notifications/bootbox.min.js"></script>
+    <script src="~/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+    <script src="~/js/plugins/forms/styling/switchery.min.js"></script>
+    <script src="~/js/plugins/forms/styling/switch.min.js"></script>
+
+
+    <script src="~/js/plugins/ui/moment/moment.min.js"></script>
+    <script src="~/js/plugins/pickers/daterangepicker.js"></script>
+    <script src="~/js/plugins/pickers/anytime.min.js"></script>
+    <script src="~/js/plugins/pickers/pickadate/picker.js"></script>
+    <script src="~/js/plugins/pickers/pickadate/picker.date.js"></script>
+    <script src="~/js/plugins/pickers/pickadate/picker.time.js"></script>
+    <script src="~/js/plugins/pickers/pickadate/legacy.js"></script>
+
+
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script src="~/js/app.js"></script>
+    <script src="~/js/custom.js"></script>
+    <!-- /theme JS files -->
+    <script src="~/js/demo_pages/form_multiselect.js"></script>
+    <script src="~/js/demo_pages/form_checkboxes_radios.js"></script>
+    <script src="~/js/demo_pages/picker_date.js"></script>
+
+    <script src="~/js/demo_pages/components_modals.js"></script>
+    <script src="~/js/demo_pages/form_inputs.js"></script>
+
+</body>
+</html>

@@ -8,6 +8,12 @@ namespace SharpVision.UMS.UMSBusiness
 {
     public static class UMSExtendedMethod
     {
+        public static UserSimple GetSimple(this UserBiz objBiz)
+        {
+            UserSimple Returned = new UserSimple() { Branch = objBiz.EmployeeBiz.BranchID, EmployeeCode = objBiz.EmployeeBiz.EmployeeSimple.Code, EmployeeID = objBiz.EmployeeBiz.ID, EmployeeName = objBiz.EmployeeBiz.Name, FullName = objBiz.FullName, Group = objBiz.GroupID, GroupName = objBiz.GroupName, ID = objBiz.ID, IsSystemAdmin = objBiz.IsAdmin, Name = objBiz.Name, Sector = objBiz.EmployeeBiz.DepartmentStr };
+            return Returned;
+        }
+
         public static FunctionSimple GetFunctionSimple(this FunctionBiz objBiz)
         {
             FunctionSimple Returned = new FunctionSimple() { Desc=objBiz.Description, FamilyID=objBiz.FamilyID,FamilyName="",ID=objBiz.ID,Name=objBiz.Name,Parent=objBiz.ParentID,ParentID=objBiz.ParentID,ParentName=objBiz.ParentBiz.Name,Stoped=objBiz.IsStoped,SysID=objBiz.SysID};
@@ -36,6 +42,11 @@ namespace SharpVision.UMS.UMSBusiness
         public static EmployeeSimple GetSimple(this EmployeeBiz objBiz)
         {
           EmployeeSimple Returned =  new EmployeeSimple() { ID = objBiz.ID, Code = objBiz.Code, Name = objBiz.Name, Department = objBiz.DepartmentStr, BranchName = objBiz.BranchName, FamousName = objBiz.FamousName, User = objBiz.UserID, UserName = "" };
+            return Returned;
+        }
+        public static AssignmentObjectSimple GetSimple(this AssignmentObjectBiz objBiz)
+        {
+            AssignmentObjectSimple Returned = new AssignmentObjectSimple() { Code = objBiz.Code, Desc = objBiz.Desc, ID = objBiz.ID };
             return Returned;
         }
     }

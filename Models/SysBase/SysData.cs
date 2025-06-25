@@ -84,12 +84,12 @@ namespace SharpVision.SystemBase
         {
             set
             {
-                //UserBiz.CurrentUser = value.UserSimple;
-                _CurrentUser = value;
+               UserSimple.CurrentUser = value.UserSimple;
+               // _CurrentUser = value;
             }
             get
             {
-                UserSmple objSImpleUser = UserSmple.CurrentUser;
+                UserSimple objSImpleUser = UserSimple.CurrentUser;
                 UserBiz objUserBiz = new UserBiz() { ID = objSImpleUser.ID, Name = objSImpleUser.Name, FullName = objSImpleUser.FullName, EmployeeBiz = new EmployeeBiz() { ID = objSImpleUser.EmployeeID, Code = objSImpleUser.EmployeeCode, Name = objSImpleUser.EmployeeName } };
                 _CurrentUser = objUserBiz;
                 if (_CurrentUser == null)
@@ -134,30 +134,47 @@ namespace SharpVision.SystemBase
         }
         public static int SysID
         {
-            set
-            {
-                _SysID = value;
-            }
+            
+           
             get
             {
-                if (AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session != null && AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString("SysID") != null)
-                {
-                    int.TryParse(AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString("SysID"), out _SysID);
+                var builder = new ConfigurationBuilder()
+.SetBasePath(Directory.GetCurrentDirectory())
+.AddJsonFile("appsettings.json");
 
-
-                }
-                else 
-                {
-                    string strTemp = AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString("SysID");
-                    if (strTemp == null)
-                        strTemp = "";
-                    int.TryParse(strTemp, out _SysID);
-                    if(AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session != null)
-                        AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.SetString("SysID", _SysID.ToString());
-                }
-                return _SysID;
+                IConfigurationRoot Configuration = builder.Build();
+                var strTemp = Configuration["ConnectionStrings:SysID"];
+                int Returned = 0;
+                int.TryParse(strTemp.ToString(), out Returned);
+                return Returned;
             }
         }
+        //public static int SysID
+        //{
+        //    set
+        //    {
+        //        _SysID = value;
+        //    }
+        //    get
+        //    {
+        //        if (AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session != null && AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString("SysID") != null)
+        //        {
+        //            int.TryParse(AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString("SysID"), out _SysID);
+
+
+        //        }
+        //        else 
+        //        {
+        //            string strTemp = AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString("SysID");
+        //            if (strTemp == null)
+        //                strTemp = "";
+        //            int.TryParse(strTemp, out _SysID);
+        //            if(AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session != null)
+        //                AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.SetString("SysID", _SysID.ToString());
+        //        }
+        //        return _SysID;
+        //    }
+        //}
         static string _ApplicantImageSupperCode = "ApplicantImageCode";
         static string _ApplicantImageMainPath;
         public static string AplicantImageMainPath

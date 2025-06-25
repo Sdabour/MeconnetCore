@@ -7,7 +7,7 @@
     public Department: string;
     public User: number;
     public UserName: string;
-   
+
 
 }
 function GetEmployeeRow(objBiz: Employee): string {
@@ -36,13 +36,25 @@ function onReturnEmployeeClick(vrEmpID) {
     var vrLblName: string = "lblEmployee" + vrEmpID;
     var vrLbl: string = (<HTMLInputElement>document.getElementById(vrLblName)).value;
 
-    var vrEmployee : Employee = JSON.parse(vrLbl);
+    var vrEmployee: Employee = JSON.parse(vrLbl);
 
     //alert(document.getElementById("lblEmployee").innerText);
-   (<HTMLInputElement> document.getElementById("lblEmployee")).innerText = vrEmployee.Name;
-    (<HTMLInputElement>document.getElementById("lblEmployeeValue")).value= vrLbl;
-
-    var vrModal = document.getElementById("myEmployeeModal");
-    vrModal.style.display = "none";
+    SetEmployeeData(vrEmployee);
     return false;
+}
+function SetEmployeeData(vrEmployee: Employee) {
+    (<HTMLInputElement>document.getElementById("lblEmployee")).innerText = vrEmployee.Name;
+    (<HTMLInputElement>document.getElementById("lblEmployeeValue")).value = JSON.stringify(vrEmployee);
+    if (document.getElementById("myEmployeeModal") != null) {
+        var vrModal = document.getElementById("myEmployeeModal");
+        vrModal.style.display = "none";
+    }
+}
+function GetCurrentEmployee(): Employee {
+
+    var Returned: Employee = new Employee();
+    if (document.getElementById("lblEmployeeValue") != null && (<HTMLInputElement>document.getElementById("lblEmployeeValue")).value != "") {
+        Returned = JSON.parse((<HTMLInputElement>document.getElementById("lblEmployeeValue")).value);
+    }
+    return Returned;
 }

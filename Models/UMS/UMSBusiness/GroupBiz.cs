@@ -63,7 +63,10 @@ namespace SharpVision.UMS.UMSBusiness
         #region Public Properties
         public int   GroupTypeID //int
         {
-            get { return _GroupTypeDb.ID; }
+            get {
+                if (_GroupTypeDb== null)
+                    _GroupTypeDb = new GroupTypeDb();
+                return _GroupTypeDb.ID; }
             set {
                 if (_GroupTypeDb == null)
                     _GroupTypeDb = new GroupTypeDb();

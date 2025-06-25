@@ -19,6 +19,7 @@ namespace AlgorithmatENM.ERP.ERPBusiness
         {
             _BufferDb = new BufferDb(objDr);
             _PLCBiz = new PLCBiz(objDr);
+            _TypeBiz = new BufferTypeBiz(objDr);
         }
 
         #endregion
@@ -31,11 +32,17 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             set => _BufferDb.ID = value;
             get => _BufferDb.ID;
         }
-        public int Type
-        {
-            set => _BufferDb.Type = value;
-            get => _BufferDb.Type;
-        }
+        //public int Type
+        //{
+        //    set => _BufferDb.Type = value;
+        //    get => _BufferDb.Type;
+        //}
+        BufferTypeBiz _TypeBiz;
+        public BufferTypeBiz TypeBiz { set => _TypeBiz = value;
+            get {
+                if (_TypeBiz == null)
+                    _TypeBiz = new BufferTypeBiz();
+                return _TypeBiz; } }
         public string Code
         {
             set => _BufferDb.Code = value;
@@ -56,6 +63,7 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             set => _BufferDb.Tag = value;
             get => _BufferDb.Tag;
         }
+        
         public int WorkCenter
         {
             set => _BufferDb.WorkCenter = value;
@@ -76,11 +84,11 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             set => _BufferDb.Measurement = value;
             get => _BufferDb.Measurement;
         }
-        public int PLC
-        {
-            set => _BufferDb.PLC = value;
-            get => _BufferDb.PLC;
-        }
+        //public int PLC
+        //{
+        //    set => _BufferDb.PLC = value;
+        //    get => _BufferDb.PLC;
+        //}
         PLCBiz _PLCBiz;
         public PLCBiz PLCBiz
         {
@@ -113,7 +121,10 @@ namespace AlgorithmatENM.ERP.ERPBusiness
                 return _DataItem;
             }
         }
+
+        //public bool IsPerHour { set=>_BufferDb.}
         public double TempValue { set; get; }
+
         #endregion
         #region Private Method
 

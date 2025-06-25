@@ -1,0 +1,32 @@
+declare class User {
+    ID: number;
+    Name: string;
+    Password: string;
+    FullName: string;
+    EmployeeID: number;
+    EmployeeCode: string;
+    EmployeeName: string;
+    Job: string;
+    Sector: string;
+    WorkGroup: number;
+    WorkGroupName: string;
+    Group: number;
+    GroupName: string;
+    IsSystemAdmin: boolean;
+    IsStopped: boolean;
+    Branch: number;
+    FunctionLst: FunctionSimple[];
+    LstFunction: FunctionInstant[];
+    ChangePass: boolean;
+    OldPass: string;
+}
+declare function GetCurrentUser(): User;
+declare function GetUserRow(vrUser: User): string;
+declare function FillUserTable(lstUser: User[]): void;
+declare function CHeckUserAddEditValidation(): boolean;
+declare function GetUserData(): User;
+declare function ReturnUser(vrUserID: number): void;
+declare function SetUserData(vrUser: User): void;
+declare function CloseUserLoginModal(): boolean;
+declare function ShowLogInModal(vrAlert: number): void;
+declare function GetUserChangePassword(): User;

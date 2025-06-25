@@ -1,0 +1,101 @@
+﻿
+@using AlgorithmatENM.ENM.ENMBiz;
+@using AlgorithmatENM.ERP.ERPBusiness;
+@{
+    ViewBag.Title = "MO Search";
+    Layout = "~/Views/Shared/_LayoutMenue.cshtml";
+}
+<style>
+    .dropbtn {
+        background-color: #ddd;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #ddd;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            /* Change color of dropdown links on hover */
+            .dropdown-content a:hover {
+                background-color: #ddd;
+            }
+
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Change the background color of the dropdown button when the dropdown content is shown */
+    .dropdown:hover .dropbtn {
+        background-color: #ddd;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        display: block;
+        width: 60px;
+    }
+</style>
+<div class="row">
+    <div class="col-1">
+
+    </div>
+</div>
+<div class="card" style="max-height:auto;scroll-behavior:auto;">
+    <div class="card-header bg-teal-400 text-white header-elements-inline">
+        <h6 class="card-title">MO</h6>
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" data-action="collapse"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="form-row">
+            <div class="dropdown">
+                <button class="dropbtn" onclick="return false"></button>
+                <div class="dropdown-content">
+                    <input type="button" class="dropbtn" value="طباعة" onclick="OnRegisterationSearchDownloadClick(0)" /><br />
+                    <input type="button" class="dropbtn" value="طباعة 2" onclick="OnRegisterationSearchDownloadClick(2)" /><br />
+                    <input type="button" class="dropbtn" value="اضافة 3" onclick="return ShowCommentModal()" /><br />
+                </div>
+            </div>
+
+        </div>
+        <div class="form-row">
+            <input type="hidden" id="lblIDs" />
+           
+        </div>
+        <div id="dvMO" class="table-responsive table table-bordered table table-hover table-striped" style="max-height:90%;max-width:100%; text-align:center;scroll-behavior:auto;height:auto;">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,227 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using SharpVision.UMS.UMSBusiness;
+@using SharpVision.Base.BaseBusiness;
+@using System.Text.Json;
+@model SharpVision.UMS.UMSBusiness.UserBiz
+@{
+    ViewBag.Title = "UserAddEdit";
+    Layout = "~/Views/Shared/_LayoutMenue.cshtml";
+}
+
+<h2>UMS</h2>
+
+<link href="~/Content/Modal.css" rel="stylesheet" />
+<script src="~/scripts/jquery/jquery.min.js"></script>
+    <script src="~/scripts/jquery/jquery.slim.min.js"></script>
+    <script src="~/scripts/jquery/jquery.slim.js"></script>
+    <script src="~/scripts/jquery/jquery.js"></script>
+<script src="~/Scripts/UMS/Employee.js"></script>
+<script src="~/Scripts/UMS/User.js"></script>
+
+<script src="~/Scripts/UMS/AssignmentObject.js"></script>
+<script src="~/Scripts/SerializableSimple.js"></script>
+
+
+
+<script src="~/Scripts/UMS/UserJ.js"></script>
+ 
+<script type="text/javascript">
+    // $(document).ready(function () {
+
+
+    //   // InitializeEmployeeModal();
+    //    /* FillFunctionInstantTable();*/
+
+    // });
+</script>
+
+    <div class="card" style="max-height:500px;scroll-behavior:auto;">
+        <div class="card-header bg-teal-400 text-white header-elements-inline">
+            <h6 class="card-title">بيانات المستخدم</h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="collapse"></a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <div class="content">
+
+                <div class="row form-row">
+
+                    <div class="col-2 m-2">
+                    @{
+                        int intAllAssignedAuthorized = UserBiz.CurrentUser.IsSystemAdmin?1:0;
+                        List<int> lstAssignedAssignment = new List<int>();
+
+                        //string strAsignedCode = "Assignment";
+                        string strAssignedAssignment;
+                        AssignmentObjectBiz objAssignmentBiz = new AssignmentObjectBiz("Assignment");
+                        UserObjectAssignmentCol objAssignedCol = objAssignmentBiz.GetAllAssignedObjectCol(new UserBiz() { ID = UserBiz.CurrentUser.ID });
+                        List<int> lstIDs = objAssignedCol.Cast<UserObjectAssignmentBiz>().Select(x => x.ObjectValue).ToList();
+                            strAssignedAssignment = JsonSerializer.Serialize(lstIDs);
+
+                        }
+                        <input type="hidden" id="ID" name="ID" value="@Model.ID" />
+                        <input type="hidden" id="lblAllAssignmentAuthorized" value="@intAllAssignedAuthorized" />
+                        <input type="hidden" id="lblAssignedAssignment" value="@strAssignedAssignment" />
+                        <input type="button" id="btnSave" name="btnSave" class="e-info" value="حفظ" onclick="AddEditUser()"/>
+
+
+                    </div>
+                    <div class="col-4 m-2">
+                        
+
+                    </div>
+                    <div class="col-2 m-2">
+                        <input type="hidden" id="ID" name="ID" value="@Model.ID" />
+                        <input type="button" id="btnSave" name="btnSave" class="e-info" value="بحث" onclick="document.getElementById('myUserSearchModal').style.display = 'block'" />
+
+
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-8">
+                        @{
+                            //Model.EmployeeBiz.UserBiz = new UserBiz();
+                            //Model.EmployeeBiz.UserBiz.SystemCol = new UserSystemCol(true);
+                            //Model.EmployeeBiz.UserBiz.UserFunctionInstantCol = new UserFunctionInstantCol(true);
+                            //Model.EmployeeBiz.UserBiz.GroupCol = new UserGroupCol(true);
+
+                            ViewBag.CurrentEmployee = Model.EmployeeBiz.GetSimple();
+
+                            Html.RenderPartial("../Shared/EmployeeSearch");
+                        }
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-4 m-1">
+                        <input type="text" class="form-control form-control-sm" id="Name" name="Name" placeholder="User Name" value="@Model.Name" />
+
+                    </div>
+                    <div class="col-4 m-1">
+                        <input type="text" class="form-control form-control-sm" id="FullName" name="FullName" placeholder="User Full Name" value="@Model.FullName" />
+
+                    </div>
+                    <div class="col-2 m-1">
+                        <input type="password" class="form-control form-control-sm" id="Password" name="Password" placeholder="Password" value="@Model.Password" />
+
+                    </div>
+
+                </div>
+                <br />
+                <div class="form-row">
+                    @{
+                        List<SerializableBiz> objGroupLst = GroupCol.CacheGroupCol.Cast<GroupBiz>().Select(x => new SerializableBiz() { ID = x.ID, Name = x.NameA }).ToList();
+
+                    }
+                    <div class="col-2">
+                        <select id="GroupID" name="GroupID" class="form-control">
+                            @{string strSelected = "";}
+                            @foreach (SerializableBiz objBiz in objGroupLst)
+                            {
+                                strSelected = Model.ID > 0 && objBiz.ID == Model.GroupBiz.ID ? "Selected" : "";
+                    
+                                   if(Model.ID > 0 && objBiz.ID == Model.GroupBiz.ID)
+                                   {<option value="@objBiz.ID" selected>@objBiz.Name</option>}
+                                   else
+                                   { <option value="@objBiz.ID">@objBiz.Name</option>}
+                             
+                        }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card" style="scroll-behavior:auto;">
+        <div class="card-header bg-teal-400 text-white header-elements-inline">
+            <h6 class="card-title">صلاحيات</h6>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="collapse"></a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @{
+                ViewBag.FunctionInstant = Model.AllUserFunctionInstantCol.Cast<UserFunctionInstantBiz>().Select(x => x.GetFunctionInstant()).ToList();
+                Html.RenderPartial("../User/FunctionInstant");
+            }
+        </div>
+    </div>
+
+
+<div class="card" style="scroll-behavior:auto;">
+    <div class="card-header bg-teal-400 text-white header-elements-inline">
+        <h6 class="card-title">تخصيص</h6>
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" data-action="collapse"></a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body" style="height:500px;">
+        <div class="row">
+            <div class="col">
+        @{
+
+            Html.RenderPartial("../User/AssignmentObject");
+        }
+        </div>
+        </div>
+        <div class="row">
+
+            <div class="col-4">
+                <input type="hidden" id="lblAllAssignmentObjectValue" value="" />
+                <input type="hidden" id="lblSelectedAssignmentObjectValue" value="" />
+                <input type="text" id="txtFilterAssignmentObjectValue" onchange="GetSerializableSimpleTable('AssignmentObjectValue')" class="form-control" />
+            </div>
+            <div class="col-lg-2">only selected</div>
+            <div class="col-2"><input type="checkbox" id="chkOnlySelectedAssignmentObjectValue" onchange="GetSerializableSimpleTable('AssignmentObjectValue')" /></div>
+
+            <div class="col-2"> </div>
+            <div class="col-2"><input type="button" value="Assign" onclick="SaveUserAssignment()" /></div>
+        </div>
+       
+       <div class="table-responsive" id="tblAssignmentObjectValue" style="height:300px;">
+           
+       </div>
+      
+    </div>
+</div>
+<div id="myUserSearchModal" class="modal" tabindex="-1">
+    <div class="modal-content">
+        <span id="UserSearchClose" class="close" onclick="document.getElementById('myUserSearchModal').style.display = 'none'">&times;</span>
+
+
+
+
+        <div class="form-row">
+            <input type="hidden" id="lblAllUser" value="" />
+            <div class="col_4">
+                <input type="text" id="txtUserName" placeholder="UserName" class="form-control form-control-sm" />
+            </div>
+            <div class="col_2">
+            </div>
+                <div class="col_4">
+                    <input type="text" id="txtUserFullName" placeholder="UserFullName" class="form-control form-control-sm" />
+                </div>
+                <div class="col_2">
+                    <input type="button" id="btnSearchUser" class="form-control form-control-sm" value="Search" onclick="FillUserList()" />
+                </div>
+            </div>
+            <div class="table-responsive" id="tblUserSearch">
+
+            </div>
+
+
+        </div>
+
+</div>

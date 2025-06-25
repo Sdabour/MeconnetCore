@@ -1,0 +1,89 @@
+﻿@using SharpVision.UMS.UMSBusiness;
+@using System.Text.Json;
+<link href="~/Content/Modal.css" rel="stylesheet" />
+
+<script src="~/Scripts/UMS/Function.js"></script>
+<script src="~/Scripts/UMS/FunctionInstant.js"></script>
+<div class="content">
+    @{
+        FunctionCol objFunctionCol = new FunctionCol(0);
+        List<FunctionSimple> objCol = objFunctionCol.LinearCol.Cast<FunctionBiz>().Select(x => x.GetFunctionSimple()).ToList();
+        string strFunction = JsonSerializer.Serialize(objCol);
+    }
+    <input type="hidden" id="lblAllFunction" name="lblAllFunction" value="@strFunction" />
+    @{
+        string strAllFunctionInstant = "";
+        if (ViewBag.FunctionInstant != null)
+        {
+            strAllFunctionInstant = JsonSerializer.Serialize(ViewBag.FunctionInstant);
+        }
+    }
+    <input type="hidden" id="lblAllFunctionInstant" name="lblAllFunctionInstant" value="@strAllFunctionInstant" />
+    <div class="form-row">
+        <div class="col-1">
+            <input type="button" value="+" onclick="return ShowFunctionModal();" />
+        </div>
+        <div class="col-4">
+            @{
+                SystemCol objSystemCol = new SystemCol();
+                if (SharpVision.SystemBase.SysData.SysID!=2)
+                {
+                    List<SystemBiz> lstSystem = objSystemCol.Cast<SystemBiz>().Where(x => x.ID == SharpVision.SystemBase.SysData.SysID).ToList();
+                    SystemBiz objSystem = lstSystem[0];
+                    objSystemCol = new SystemCol(true);
+
+                    objSystemCol.Add(objSystem);
+                }
+                //else
+                //{
+                //    objSystemCol = new SystemCol();
+                //}
+            }
+            <select class="form-control form-control-uniform multiselect-filter" id="cmbSystem" name="cmbSystem" onchange="FillFunctionInstantTable()">
+
+                @foreach (SystemBiz objBiz in objSystemCol)
+                {
+                    <option value="@objBiz.ID">@objBiz.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="table-responsive" id="dvFunctionInstant">
+
+        </div>
+
+    </div>
+    <div id="myFunctionModal" class="modal" tabindex="-1">
+        <div class="modal-content">
+            <span id="FunctionClose" class="close" onclick="CloseFunctionModal()">&times;</span>
+
+
+
+
+            <div class="form-row">
+                <div class="col-2">
+                    <select id="cmbFunctionSystem" class="form-control form-control-uniform multiselect-filter" onchange="FillFunctionTable()">
+                        @foreach (SystemBiz objBiz in objSystemCol)
+                        {
+                            <option value="@objBiz.ID">@objBiz.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-4">
+                    <input type="text" id="txtFunctionFilter" placeholder="Filter" class="form-control form-control-sm" onchange="FillFunctionTable()" />
+                </div>
+                <div class="col-1">
+                    <input type="checkbox" id="chkFamilyNodes"   class="checkbox" onchange="FillFunctionTable()" />
+                </div>
+            </div>
+            <div class="table-responsive" id="dvFunction">
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>

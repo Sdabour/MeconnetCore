@@ -7,11 +7,11 @@ namespace AlgorithmatENM.ERP.ERPBusiness
 {
     public class RouteSimple
     {
-        public string Code;
-        public string Desc;
-        public string Date;
-        public string StartTime;
-        public string EndTime;
-        public double ProcessingPeriod;
+        public string Code{ set; get; }
+        public string Desc{ set; get; }
+        public string Date{ set; get; }
+        public string StartTime{ set; get; }
+        public string EndTime{ set; get; }
+        public double ProcessingPeriod{ set; get; }
     }
 }

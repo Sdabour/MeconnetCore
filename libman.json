@@ -3,12 +3,21 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
+      "library": "popper.js@2.11.8",
+      "destination": "wwwroot/lib/popper.js/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "@popperjs/core@2.11.5",
+      "destination": "wwwroot/lib/popperjs/core/"
+    },
+    {
       "library": "bootstrap@5.3.3",
       "destination": "wwwroot/lib/bootstrap/"
     },
     {
-      "library": "popper.js@2.11.8",
-      "destination": "wwwroot/lib/popper.js/"
+      "library": "jquery@3.7.1",
+      "destination": "wwwroot/Scripts/jquery/jquery/"
     }
   ]
 }

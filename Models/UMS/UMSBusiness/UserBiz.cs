@@ -11,7 +11,7 @@ using SharpVision.SystemBase;
 
 namespace SharpVision.UMS.UMSBusiness
 {
-    public class UserSmple
+    public class UserSmple32
     {
         public int ID
         {
@@ -54,15 +54,16 @@ namespace SharpVision.UMS.UMSBusiness
         }
         public static string CurrentUserIDKey
         { get => "CurrentUser"; }
-        public static UserSmple CurrentUser
+        public static UserSimple CurrentUser
         {
+            set => AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.SetString(CurrentUserIDKey, System.Text.Json.JsonSerializer.Serialize(value));
             get
             {
-                UserSmple Returned = new UserSmple();
+                UserSimple Returned = new UserSimple();
                 if (AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString(CurrentUserIDKey) != null)
                 {
                     string strTemp = AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString(CurrentUserIDKey);
-                    Returned = Newtonsoft.Json.JsonConvert.DeserializeObject<UserSmple>(strTemp);
+                    Returned = Newtonsoft.Json.JsonConvert.DeserializeObject<UserSimple>(strTemp);
                 }
                 return Returned;
             }
@@ -349,10 +350,21 @@ namespace SharpVision.UMS.UMSBusiness
         {
             get
             {
-                UserSimple Returned = new UserSimple() { ID=ID,Name=Name,EmpID=EmployeeBiz.ID,EmpCode=EmployeeBiz.Code,EmpName=EmployeeBiz.Name,Job="",Sector=EmployeeBiz.DepartmentStr,WorkGroup = EmployeeBiz.WorkGroupBiz.ID, WorkGroupName = EmployeeBiz.WorkGroupBiz.Name };
+                UserSimple Returned = new UserSimple() { ID=ID,Name=Name,EmployeeID=EmployeeBiz.ID,EmployeeCode=EmployeeBiz.Code,EmployeeName=EmployeeBiz.Name,Job="",Sector=EmployeeBiz.DepartmentStr,WorkGroup = EmployeeBiz.WorkGroupBiz.ID, WorkGroupName = EmployeeBiz.WorkGroupBiz.Name };
                 Returned.FunctionLst = new List<FunctionSimple>();
                 foreach (UserFunctionInstantBiz objBiz in UserFunctionInstantCol)
                     Returned.FunctionLst.Add(new FunctionSimple() { ID = objBiz.ID, Name = objBiz.Name });
+
+                return Returned;
+            }
+        }
+        public UserSimple UserSimpleNOFunction
+        {
+            get
+            {
+                UserSimple Returned = new UserSimple() { ID = ID, Name = Name, EmployeeID = EmployeeBiz.ID, EmployeeCode = EmployeeBiz.Code, EmployeeName = EmployeeBiz.Name, Job = "", Sector = EmployeeBiz.DepartmentStr, WorkGroup = EmployeeBiz.WorkGroupBiz.ID, WorkGroupName = EmployeeBiz.WorkGroupBiz.Name };
+                Returned.FunctionLst = new List<FunctionSimple>();
+                
 
                 return Returned;
             }
@@ -410,15 +422,15 @@ namespace SharpVision.UMS.UMSBusiness
 
         public static string CurrentUserIDKey
         { get => "CurrentUser"; }
-        public static UserSmple CurrentUser
+        public static UserSimple CurrentUser
         {
             get
             {
-                UserSmple Returned = new UserSmple();
+                UserSimple Returned = new UserSimple();
                 if (AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString(CurrentUserIDKey) != null)
                 {
                     string strTemp = AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString(CurrentUserIDKey);
-                    Returned = Newtonsoft.Json.JsonConvert.DeserializeObject<UserSmple>(strTemp);
+                    Returned = Newtonsoft.Json.JsonConvert.DeserializeObject<UserSimple>(strTemp);
                 }
                 return Returned;
             }

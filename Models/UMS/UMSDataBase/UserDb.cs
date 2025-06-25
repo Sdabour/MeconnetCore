@@ -575,7 +575,7 @@ namespace SharpVision.UMS.UMSDataBase
         public virtual DataTable GetUserFunctions()
         {
             DataTable dtReturned;
-            if (_IsAdmin|| IsCurrentSystemAdmin)
+            if (_IsAdmin)//|| IsCurrentSystemAdmin)
             {
                 SystemDb objSysDb = new SystemDb();
                 objSysDb.ID = BaseDb.SysID;

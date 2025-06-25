@@ -9,16 +9,16 @@ namespace SharpVision.UMS.UMSBusiness
     {
         //ID,Name,Desc,System,ParentID,FamilyID,ParentName,FamilyName,Stoped
         #region Properties
-        public int ID;
-        public string Name;
-        public string Desc;
-        public int SysID;
-        public int ParentID;
-        public int Parent;
-        public int FamilyID;
-        public string ParentName;
-        public string FamilyName;
-        public bool Stoped;
+        public int ID { set; get; }
+        public string Name{ set; get; }
+        public string Desc{ set; get; }
+        public int SysID{ set; get; }
+        public int ParentID{ set; get; }
+        public int Parent{ set; get; }
+        public int FamilyID{ set; get; }
+        public string ParentName{ set; get; }
+        public string FamilyName{ set; get; }
+        public bool Stoped{ set; get; }
         #endregion
        
     }

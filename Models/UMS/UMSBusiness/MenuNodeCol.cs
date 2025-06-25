@@ -68,18 +68,18 @@ namespace SharpVision.UMS.UMSBusiness
         public void SetAuthorizedNodeChildren(ref MenuNodeBiz objNodeBiz)
         {
             int intID = objNodeBiz.ID;
-            IEnumerable<MenuNodeBiz> objCol = from objBiz in this.Cast<MenuNodeBiz>()
+            UserSimple objSimple = UserBiz.CurrentUser;
+            Hashtable hsTemp = objSimple.GetUserFunctionHash();
+            List<MenuNodeBiz> objCol = (from objBiz in this.Cast<MenuNodeBiz>()
                                               where objBiz.Parent == intID &&
-                                              (objBiz.Function == 0 ) &&!objBiz.IsStopped
-                                              select objBiz;
-           // object objX =  UserBiz.CurrentUser.UserFunctionInstantCol["553"];
+                                              (objBiz.Function == 0 || hsTemp[objBiz.Function.ToString()] != null) && !objBiz.IsStopped
+                                              select objBiz).ToList();
+            //object objX = UserBiz.CurrentUser.UserFunctionInstantCol["553"];
             MenuNodeBiz objBiz1;
             for (int intIndex = 0; intIndex < objCol.Count(); intIndex++)
             {
                 objBiz1 = objCol.ElementAt(intIndex);
-                
                 SetAuthorizedNodeChildren(ref objBiz1);
-                if(objBiz1.Function>0|| objBiz1.Children.Count>0)
                 objNodeBiz.Children.Add(objBiz1);
             }
         }
@@ -111,14 +111,15 @@ namespace SharpVision.UMS.UMSBusiness
             get
             {
                 MenuNodeCol Returned = new MenuNodeCol(true);
-                IEnumerable<MenuNodeBiz> objCol = from objBiz in this.Cast<MenuNodeBiz>()
+                List<MenuNodeBiz> objCol = (from objBiz in this.Cast<MenuNodeBiz>()
                                                   where objBiz.Parent == 0 && !objBiz.IsStopped
-                                                  select objBiz;
+                                                  select objBiz).ToList();
                 MenuNodeBiz objNodeBiz;
-                for (int intIndex = 0; intIndex < objCol.Count(); intIndex++)
+                UserSimple objUser = UserBiz.CurrentUser;
+                for (int intIndex = 0; intIndex < objCol.Count; intIndex++)
                 {
-                    objNodeBiz = objCol.ElementAt(intIndex);
-                    if (objNodeBiz.Function != 0 && UserBiz.CurrentUser.CheckFunction(objNodeBiz.Function))
+                    objNodeBiz = objCol[intIndex];
+                    if (objNodeBiz.Function != 0 && objUser.CheckFunction(objNodeBiz.Function))
                         Returned.Add(objNodeBiz);
                     else
                     {

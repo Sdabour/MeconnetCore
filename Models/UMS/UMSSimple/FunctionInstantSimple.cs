@@ -14,11 +14,11 @@ namespace SharpVision.UMS.UMSBusiness
         //public int System;
         //public int ParentID;
         //public string ParentName;
-        public FunctionSimple FunctionSimple = new FunctionSimple();
-        public bool IsPermanent;
-        public DateTime StartDate;
-        public DateTime EndDate;
-        public bool IsAdmin;
+        public FunctionSimple FunctionSimple { set; get; } = new FunctionSimple();
+        public bool IsPermanent{ set; get; }
+        public DateTime StartDate{ set; get; }
+        public DateTime EndDate{ set; get; }
+        public bool IsAdmin{ set; get; }
         #endregion
 
     }

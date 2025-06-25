@@ -1,9 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+  </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <TypeScriptModuleKind>none</TypeScriptModuleKind>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Deterministic>True</Deterministic>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Deterministic>True</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,8 +31,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Scripts\ENM\file.ts" />
+    <Content Remove="wwwroot\Scripts\ENM\Measurement.ts" />
+    <Content Remove="wwwroot\Scripts\ENM\Meter.d.ts" />
+    <Content Remove="wwwroot\Scripts\ENM\Meter.ts" />
+    <Content Remove="wwwroot\Scripts\ENM\MeterGroup.d.ts" />
+    <Content Remove="wwwroot\Scripts\ENM\MeterGroup.ts" />
+    <Content Remove="wwwroot\Scripts\ERP\Buffer.ts" />
+    <Content Remove="wwwroot\Scripts\ERP\BufferMeasure.ts" />
+    <Content Remove="wwwroot\Scripts\ERP\BufferType.ts" />
     <Content Remove="wwwroot\Scripts\ERP\MO.ts" />
+    <Content Remove="wwwroot\Scripts\ERP\PLC.ts" />
     <Content Remove="wwwroot\Scripts\ERP\SingleIDValue.ts" />
+    <Content Remove="wwwroot\Scripts\SerializableSimple.ts" />
+    <Content Remove="wwwroot\Scripts\UMS\AssignmentObject.ts" />
+    <Content Remove="wwwroot\Scripts\UMS\Employee.ts" />
+    <Content Remove="wwwroot\Scripts\UMS\Function.ts" />
+    <Content Remove="wwwroot\Scripts\UMS\FunctionInstant.ts" />
+    <Content Remove="wwwroot\Scripts\UMS\User.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +71,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.18" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="popper.js" Version="1.16.1" />
     <PackageReference Include="System.Data.OleDb" Version="10.0.0-preview.1.25080.5" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
     <PackageReference Include="System.Drawing.Common" Version="10.0.0-preview.1.25080.3" />
@@ -47,8 +81,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\Scripts\ENM\file.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\ENM\Measurement.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\ENM\Meter.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\ENM\MeterGroup.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\ERP\Buffer.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\ERP\BufferMeasure.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\ERP\BufferType.ts" />
     <TypeScriptCompile Include="wwwroot\Scripts\ERP\MO.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\ERP\PLC.ts" />
     <TypeScriptCompile Include="wwwroot\Scripts\ERP\SingleIDValue.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\SerializableSimple.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\UMS\AssignmentObject.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\UMS\Employee.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\UMS\Function.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\UMS\FunctionInstant.ts" />
+    <TypeScriptCompile Include="wwwroot\Scripts\UMS\User.ts" />
   </ItemGroup>
 
 </Project>

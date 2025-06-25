@@ -45,7 +45,7 @@ namespace AlgorithmatENMMVCCore.Hubs
                 try
                 {
                     dtTemp = objPlcCol.SaveS7BufferRead("");
-                    lstIDValue = dtTemp.Rows.Cast<DataRow>().Select(objDr => new SingleIDValue() { ID = int.Parse(objDr["BufferID"].ToString()), Value = objDr["MeasureValue"].ToString() }).ToList();
+                    lstIDValue = dtTemp.Rows.Cast<DataRow>().Select(objDr => new SingleIDValue() { ID = int.Parse(objDr["BufferID"].ToString()), Value =double.Parse( objDr["MeasureValue"].ToString()).ToString("0.000") }).ToList();
                     //objCol = new BufferMeasureCol(true, DateTime.Now, DateTime.Now);
                     //objMeasureCol = objCol.Cast<BufferMeasureBiz>().ToList().GetMeasurementLst();
                     //lstIDValue = objCol.Cast<BufferMeasureBiz>().Select(x => new SingleIDValue() { ID = x.BufferID, Value = x.MeasureValue.ToString() }).ToList();

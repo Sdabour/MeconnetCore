@@ -12,6 +12,7 @@ namespace AlgorithmatENMMVCCore
         public static void Configure(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
+            //WebHelpers.Configure(httpContextAccessor);
         }
 
         public static HttpContext HttpContext
@@ -40,6 +41,7 @@ namespace AlgorithmatENMMVCCore
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+           // WebHelpers.Configure(configuration);
         }
         public IConfiguration Configuration { get; }  // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHttpContextAccessor httpContextAccessor)
@@ -53,8 +55,10 @@ namespace AlgorithmatENMMVCCore
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-            app.UseSession();
+            
             app.UseRouting();
+            app.UseSession();
+            
             app.UseAuthentication();
             app.UseAuthorization();
             

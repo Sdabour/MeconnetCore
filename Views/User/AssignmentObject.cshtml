@@ -1,0 +1,40 @@
+﻿<div class="form-row">
+    <input type="hidden" id="lblAllAssignmentObject" />
+    <input type="hidden" id="lblSelectedAssignmentObject" />
+   <div class="col-2"><button onclick="document.getElementById('myAssignmentObjectModal').style.display = 'block'">Assignment Object</button></div>
+    <div class="col-6">
+        <label style="align-content:center;background-color:aliceblue;" id="lblSelectedAssignmentObjectDesc"></label>
+    </div>
+</div>
+<div class="content" style="max-height:300px;">
+    <input type="hidden" id="lblAllAssinmentObjectValue" value="" />
+    <input type="hidden" id="lblSelectedAssinmentObjectValue" value="" />
+    
+
+    
+</div>
+<div id="myAssignmentObjectModal" class="modal" tabindex="-1">
+    <div class="modal-content">
+        <span id="AssignmentObjectClose" class="close" onclick="document.getElementById('myAssignmentObjectModal').style.display = 'none'">&times;</span>
+
+
+
+
+        <div class="form-row">
+           
+            <div class="col-8">
+                <input type="text" id="txtAssignmentObjectFilter" placeholder="Filter"  onchange="FillAssignmentObjectTable()" class="form-control form-control-sm"/>
+            </div>
+            <div class="col-2">
+                <input type="button" onclick="FillAissignmentObjectList()" value="Search" />
+            </div>
+             
+        </div>
+        <div class="table-responsive" id="tblAssignmentObject">
+
+        </div>
+
+
+    </div>
+
+</div>

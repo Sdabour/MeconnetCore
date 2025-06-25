@@ -1,0 +1,86 @@
+﻿
+@model SharpVision.UMS.UMSBusiness.UserSimple
+@using SharpVision.UMS.UMSBusiness;
+@using SharpVision.SystemBase;
+@{
+    ViewBag.Title = "Algorithmat";
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+}
+ 
+ <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+ <link href="~/Content/ej2/fluent.css" rel="stylesheet" />
+<script type="text/javascript">
+    function CheckFormValidation()
+    {
+
+      
+        if (document.getElementById("Name") == null || document.getElementById("Name").value == "")
+        {
+            alert("Please Enter your user name");
+            return false;
+        }
+        if (document.getElementById("Password") == null || document.getElementById("Password").value == "") {
+            alert("Please Enter your Password");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<h2>Index</h2>
+
+@{
+   
+    
+}
+<body>
+   
+<form id="myForm" action="~/Login/CheckUser" method="post" onsubmit="return CheckFormValidation()">
+
+        <div id="LogInDiv" style="position:center;">
+
+
+
+           
+                <div class="form-row">
+                        <div class="col-2"></div>
+                <div class="col-2"> <label>User Name:</label>
+                </div>
+                <div class="col-4">
+                    <input type="text" name="Name" id="Name" class="form-control" placeholder="User Name" />
+                </div>
+                </div>
+           
+                    <div class="form-row">
+                        <div class="col-2">
+
+                        </div>
+                        <div class="col-2">
+                            <label>PassWord:</label>
+                            </div>
+                 <div class="col-4">
+                    <input type="password" id="Password" name="Password" class="form-control" placeholder="Password" />
+                </div>
+            </div>
+                        <div class="form-row">
+                        <div class="col-4"></div>
+                <div class="col-2"> <input type="submit" value="LogIn" onclick="return CheckFormValidation();" class="btn btn-outline-primary" formmethod="post">
+                        </div>
+                    </div>
+            
+
+
+
+
+
+        </div>
+
+
+    </form>
+
+         
+        <link href="~/Content/Modal.css" rel="stylesheet" />
+<script src="~/Scripts/JqueryLatest.js"></script>
+<script src="~/js/main/jquery.min.js"></script>
+            
+</body>

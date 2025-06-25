@@ -1,16 +1,16 @@
-﻿ class MeterGroup {
+﻿class MeterGroup {
 
     public ID: number;
     public Code: string;
     public NameA: string;
     public NameE: string;
-     public Desc: string;
-     public LastUpdateTime: string;
-     public LastUpdateDate: string;
-     public OfflineCount: number;
-     public LastReadTime: string;
-     public MeterLst: Meter[] = [];
-    
+    public Desc: string;
+    public LastUpdateTime: string;
+    public LastUpdateDate: string;
+    public OfflineCount: number;
+    public LastReadTime: string;
+    public MeterLst: Meter[] = [];
+
 }
 function GetMeterGroupRow(objBiz: MeterGroup): string {
     let Returned: string;
@@ -35,9 +35,9 @@ function GetGroupInitialRow(vrGroup: MeterGroup, strBtns: string): string {
 
 
 
-   
 
-    
+
+
 
     Returned += "<td>" + vrGroup.NameA + "</td>";
     Returned += "<td>" + vrGroup.LastReadTime + "</td>";
@@ -69,7 +69,7 @@ function GetGroupPivot11(vrGroup: MeterGroup): string {
             vrMeasure = vrMeasureLst.length > 0 ? vrMeasureLst[vrMeasureLst.length - 1] : new Measurement();
             vrDisplay = "";
             try {
-                vrDisplay = vrMeasure.LastMeasureValue.toFixed(2)  ;
+                vrDisplay = vrMeasure.LastMeasureValue.toFixed(2);
             }
             catch { }
             Returned += "<td>" + vrDisplay + "</td>";
@@ -79,7 +79,7 @@ function GetGroupPivot11(vrGroup: MeterGroup): string {
     Returned += "</table>";
     return Returned;
 }
-function GetGroupPivot(vrGroup: MeterGroup):string {
+function GetGroupPivot(vrGroup: MeterGroup): string {
     var vrHeader: string[] = GetGroupHeaderArr(vrGroup);
     var Returned: string = "";
     Returned += "<table class=\"table\" style=\"max-height:90%;scroll-behavior: auto;\">";
@@ -110,26 +110,25 @@ function GetGroupPivot(vrGroup: MeterGroup):string {
                 else {
 
                     vrDisplay = vrMeasure.LastMeasureTypeNameA + "<br/>"; vrDisplay += "<label class=\"text-black\" style=\" background-color:aliceblue;text-align:center;width:100%;\" id=\"lblBufferValue" + vrMeasure.LastMeasureTypeID.toString() + "\">" + vrMeasure.LastMeasureValue.toFixed(2) + "</label>";
-                    if (document.getElementById("lblBufferValue" + vrMeasure.LastMeasureTypeID.toString()) != null)
-                    {
+                    if (document.getElementById("lblBufferValue" + vrMeasure.LastMeasureTypeID.toString()) != null) {
                         (<HTMLInputElement>document.getElementById("lblBufferValue" + vrMeasure.LastMeasureTypeID.toString())).innerText = vrMeasure.LastMeasureValue.toFixed(2);
                     }
                 }
             }
             catch { }
-             
-            Returned += "<td>" +vrDisplay  + "</td>";
+
+            Returned += "<td>" + vrDisplay + "</td>";
         }
         Returned += "</tr>";
     }
     Returned += "</table>";
     return Returned;
 }
-function GetGroupCard(vrGroup: MeterGroup): string{
-    
+function GetGroupCard(vrGroup: MeterGroup): string {
+
     var vrGroupPivot: string = GetGroupPivot(vrGroup);
     var Returned: string = "";
-    Returned += " <div class=\"card\" id=\"dvGroupCard"+vrGroup.ID.toString()+"\">";
+    Returned += " <div class=\"card\" id=\"dvGroupCard" + vrGroup.ID.toString() + "\">";
     Returned += "<div class=\"card-header bg-teal-400 text-white header-elements-inline\">";
     Returned += "<h6 class=\"card-title\">" + vrGroup.Desc + "</h6>";
     Returned += "<div class=\"header-elements\">" +
@@ -141,20 +140,20 @@ function GetGroupCard(vrGroup: MeterGroup): string{
 
 
     Returned += "<div class=\"table-responsive\">";
-    Returned += vrGroupPivot; 
+    Returned += vrGroupPivot;
     Returned += "</div>";
     Returned += "</div>";
-    Returned+=  "</div>";
+    Returned += "</div>";
     return Returned;
 }
-function GetGroupHeaderArr1(vrGroup:MeterGroup): string[] {
+function GetGroupHeaderArr1(vrGroup: MeterGroup): string[] {
 
     var Returned: string[] = [];
     var vrMeasure: string = "";
-   /* Returned = vrGroup.MeterLst.map(x => x.MeasureLst.map(y => y.MeterTypeNameA));*/
+    /* Returned = vrGroup.MeterLst.map(x => x.MeasureLst.map(y => y.MeterTypeNameA));*/
     for (var vrIndex = 0; vrIndex < vrGroup.MeterLst.length; vrIndex++) {
         for (var vrM = 0; vrM < vrGroup.MeterLst[vrIndex].MeasureLst.length; vrM++) {
-          vrMeasure =  vrGroup.MeterLst[vrIndex].MeasureLst[vrM].LastMeasureTypeNameA;
+            vrMeasure = vrGroup.MeterLst[vrIndex].MeasureLst[vrM].LastMeasureTypeNameA;
             if (Returned.filter(x => x == vrMeasure).length == 0) {
                 Returned[Returned.length] = vrMeasure;
             }
@@ -173,7 +172,7 @@ function GetGroupHeaderArr(vrGroup: MeterGroup): string[] {
 
     for (var vrIndex = 0; vrIndex < vrGroup.MeterLst.length; vrIndex++) {
         if (vrGroup.MeterLst[vrIndex].MeasureLst.length > vrHeaderCount) { vrHeaderCount = vrGroup.MeterLst[vrIndex].MeasureLst.length; }
-        
+
     }
     for (var vrIndex = 0; vrIndex < vrHeaderCount; vrIndex++) {
         Returned[vrIndex] = "Measure" + (vrIndex + 1).toString();

@@ -45,14 +45,17 @@ function FillBufferGroup() {
         var vrStrArr;
         var vrStrCard = "";
         var vrCardExists = false;
+        var vrGroup = {};
         for (var vrIndex = 0; vrIndex < data.length; vrIndex++) {
-
-            strDV += GetMeterGroupRow(data[vrIndex]);
+            vrGroup = data[vrIndex];
+            strDV += GetMeterGroupRow(vrGroup);
             if (document.getElementById("dvGroupCard" + data[vrIndex].ID) != null) {
                 vrCardExists = true;
             }
             {
-                vrStrCard += GetGroupCard(data[vrIndex]);
+                try {
+                    vrStrCard += GetGroupCard(data[vrIndex]);
+                } catch { }
             }
         }
         strDV += "</table>"

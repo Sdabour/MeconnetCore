@@ -9,13 +9,13 @@ namespace AlgorithmatENM.Models.ERP.ERPSimple
     {
 
         #region Properties
-        public int ID;
-        public string Desc;
-        public int Type;
-        public int CPUType;
-        public string IP;
-        public int Slot;
-        public int Rack;
+        public int ID{ set; get; }
+        public string Desc{ set; get; }
+        public int Type{ set; get; }
+        public int CPUType{ set; get; }
+        public string IP{ set; get; }
+        public int Slot{ set; get; }
+        public int Rack{ set; get; }
         #endregion
     }
 }

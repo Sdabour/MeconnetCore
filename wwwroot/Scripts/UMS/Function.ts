@@ -27,7 +27,7 @@ class FunctionSimple
 
       
 
-        Returned += "<td><input type=\"button\" value=\"تثبيت\" id=\"btnReturnFunction" + objBiz.ID + "\"  onclick=\"return AddFunctionToInstantCol('" + objBiz.ID + "')\" name=\"btnReturnFunction" + objBiz.ID + "\" /></td>";
+        Returned += "<td><input type=\"button\" value=\"+\" id=\"btnReturnFunction" + objBiz.ID + "\"  onclick=\"return AddFunctionToInstantCol('" + objBiz.ID + "')\" name=\"btnReturnFunction" + objBiz.ID + "\" /></td>";
         Returned += "</tr>";
 
         return Returned;

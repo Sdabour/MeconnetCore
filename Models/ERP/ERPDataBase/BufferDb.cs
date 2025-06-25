@@ -148,9 +148,9 @@ namespace AlgorithmatENM.ERP.ERPDataBase
             get
             {
                 string Returned = @"SELECT dbo.ERPBuffer.BufferID, dbo.ERPBuffer.BufferType, dbo.ERPBuffer.BufferCode, dbo.ERPBuffer.BufferDesc, dbo.ERPBuffer.BufferSize, dbo.ERPBuffer.BufferTag, dbo.ERPBuffer.BufferWorkCenter, dbo.ERPBuffer.BufferMachine, 
-                  dbo.ERPBuffer.BufferProduct, dbo.ERPBuffer.BufferMeasurement, dbo.ERPBuffer.BufferPLC, dbo.ERPBuffer.BufferPLCDataType, dbo.ERPBuffer.BufferPLCVarType,dbo.ERPBuffer.BufferThreshold,PLCTable.*  
+                  dbo.ERPBuffer.BufferProduct, dbo.ERPBuffer.BufferMeasurement, dbo.ERPBuffer.BufferPLC, dbo.ERPBuffer.BufferPLCDataType, dbo.ERPBuffer.BufferPLCVarType,dbo.ERPBuffer.BufferThreshold,BufferTypeTable.*,PLCTable.*  
    FROM     dbo.ERPBuffer INNER JOIN
-                  dbo.ERPBufferType AS BufferTypeTable ON dbo.ERPBuffer.BufferType = BufferTypeTable.TypeID LEFT OUTER JOIN
+                 "+new BufferTypeDb().SearchStr+@" AS BufferTypeTable ON dbo.ERPBuffer.BufferType = BufferTypeTable.TypeID LEFT OUTER JOIN
                   dbo.ERPMeasurementUnit AS MeasureUnitTable ON dbo.ERPBuffer.BufferMeasurement = MeasureUnitTable.MeasurementID LEFT OUTER JOIN
                    (" + new PLCDb().SearchStr + @") AS PLCTable ON dbo.ERPBuffer.BufferPLC = PLCTable.PLCID LEFT OUTER JOIN
                   dbo.ERPMachine AS MachineTable ON dbo.ERPBuffer.BufferMachine = MachineTable.MachineID LEFT OUTER JOIN

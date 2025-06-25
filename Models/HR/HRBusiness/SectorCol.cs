@@ -39,7 +39,7 @@ namespace SharpVision.HR.HRBusiness
             DataTable dtSector = SectorDb.SectorTable;
 
 
-            DataRow[] arrDR = dtSector.Select("SectorID=SectorParentID", "SectorOrderVal"); //SectorOrderVal
+            DataRow[] arrDR =dtSector.Rows.Count ==0 ?new DataRow[0] : dtSector.Select("SectorID=SectorParentID", "SectorOrderVal"); //SectorOrderVal
             SectorBiz objSectorBiz;
             SectorBiz objTempParent = new SectorBiz();
             objTempParent.IndexInChildern = 0;

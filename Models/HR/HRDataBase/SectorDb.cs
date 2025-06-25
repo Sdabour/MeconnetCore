@@ -317,7 +317,12 @@ namespace SharpVision.HR.HRDataBase
                 {
                     SectorDb objSectorDb = new SectorDb();
                     _SectorTable = objSectorDb.Search();
-                    _SectorTable.PrimaryKey = new DataColumn[] { _SectorTable.Columns["SectorID"] };
+                    if (_SectorTable == null)
+                    {
+                        _SectorTable = new DataTable();
+                    }
+                    else
+                        _SectorTable.PrimaryKey = new DataColumn[] { _SectorTable.Columns["SectorID"] };
                 }
                 return _SectorTable;
             }

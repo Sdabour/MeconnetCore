@@ -65,7 +65,7 @@ namespace SharpVision.UMS.UMSBusiness
             }
             get
             {
-                return _EmployeeDb.Code;
+                return _EmployeeDb.Code ==null?"": _EmployeeDb.Code;
             }
         }
         public string Name
@@ -76,7 +76,7 @@ namespace SharpVision.UMS.UMSBusiness
             }
             get
             {
-                return _EmployeeDb.Name;
+                return _EmployeeDb.Name == null?"":_EmployeeDb.Name;
             }
         }
         public int UserID

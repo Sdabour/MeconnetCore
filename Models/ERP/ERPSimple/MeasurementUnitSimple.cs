@@ -9,13 +9,13 @@ namespace AlgorithmatENM.ERP.ERPBusiness
     {
 
         #region Properties
-        public int ID;
-        public int Main;
-        public string Code;
-        public string NameA;
-        public string NameE;
-        public double Factor;
-        public bool IsBasic;
+        public int ID{ set; get; }
+        public int Main{ set; get; }
+        public string Code{ set; get; }
+        public string NameA{ set; get; }
+        public string NameE{ set; get; }
+        public double Factor{ set; get; }
+        public bool IsBasic{ set; get; }
         #endregion
     }
 }

@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>bin\Release\net6.0\publish\</_PublishTargetUrl>
-    <History>True|2025-05-19T04:47:29.8460386Z;False|2025-05-12T06:39:49.4873167+03:00;True|2025-05-11T22:21:24.5902746+03:00;True|2025-05-11T20:34:40.3757840+03:00;True|2025-04-28T06:52:02.8062433+03:00;True|2025-04-25T18:14:39.3166832+03:00;True|2025-03-09T22:14:09.7846576+02:00;</History>
+    <_PublishTargetUrl>D:\SamehWork\ENM\AlgorithmatENMMVCCore\AlgorithmatENMMVCCore\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2025-05-26T17:58:36.1747180Z||;True|2025-05-25T08:26:15.0975763+03:00||;True|2025-05-19T07:47:29.8460386+03:00||;False|2025-05-12T06:39:49.4873167+03:00||;True|2025-05-11T22:21:24.5902746+03:00||;True|2025-05-11T20:34:40.3757840+03:00||;True|2025-04-28T06:52:02.8062433+03:00||;True|2025-04-25T18:14:39.3166832+03:00||;True|2025-03-09T22:14:09.7846576+02:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -31,7 +31,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/26/2025 09:53:26</publishTime>
     </File>
     <File Include="wwwroot/Scripts/ENM/Meter.ts">
-      <publishTime>10/01/2024 07:22:43</publishTime>
+      <publishTime>05/25/2025 13:40:10</publishTime>
     </File>
     <File Include="wwwroot/Scripts/ENM/MeterGroup.js">
       <publishTime>05/12/2025 06:16:22</publishTime>
@@ -40,7 +40,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/26/2025 09:53:28</publishTime>
     </File>
     <File Include="wwwroot/Scripts/ENM/MeterGroup.ts">
-      <publishTime>05/20/2025 09:47:39</publishTime>
+      <publishTime>05/25/2025 20:02:15</publishTime>
     </File>
     <File Include="wwwroot/Scripts/ENM/MeterMeasure.js.map">
       <publishTime>04/26/2025 09:53:26</publishTime>

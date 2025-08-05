@@ -1,0 +1,151 @@
+{
+  "bom": {
+    "id": 60,
+    "name": "[10102] لارينا كرتون 600 مل شد 30"
+  },
+  "byproducts": [
+    {
+      "id": 448,
+      "name": "تالف لارينا 600",
+      "uom": {
+        "id": 1,
+        "name": "وحدة"
+      }
+    }
+  ],
+  "components": [
+    {
+      "id": 458,
+      "name": "بروفورم 600 مل ",
+      "uom": {
+        "id": 1,
+        "name": "وحدة"
+      }
+    },
+    {
+      "id": 474,
+      "name": "كرتون 600 لارينا ",
+      "uom": {
+        "id": 1,
+        "name": "وحدة"
+      }
+    },
+    {
+      "id": 495,
+      "name": "لايبول 600 لارينا ",
+      "uom": {
+        "id": 1,
+        "name": "وحدة"
+      }
+    },
+    {
+      "id": 452,
+      "name": "اغطية لارينا",
+      "uom": {
+        "id": 1,
+        "name": "وحدة"
+      }
+    },
+    {
+      "id": 463,
+      "name": "صمغ لايبول",
+      "uom": {
+        "id": 13,
+        "name": "g"
+      }
+    },
+    {
+      "id": 462,
+      "name": "صمغ كرتون",
+      "uom": {
+        "id": 13,
+        "name": "g"
+      }
+    },
+    {
+      "id": 450,
+      "name": "أسترتش رول",
+      "uom": {
+        "id": 13,
+        "name": "g"
+      }
+    },
+    {
+      "id": 451,
+      "name": "احبار ",
+      "uom": {
+        "id": 13,
+        "name": "g"
+      }
+    },
+    {
+      "id": 511,
+      "name": "مياه معالجة",
+      "uom": {
+        "id": 10,
+        "name": "لتر"
+      }
+    }
+  ],
+  "id": 7,
+  "product": {
+    "id": 478,
+    "name": "لارينا كرتون 600 مل شد 30"
+  },
+  "quantity": 1,
+  "responsible": {
+    "id": 220,
+    "name": "Ahmed Abdallah"
+  },
+  "user": {
+    "id": 2,
+    "name": "Administrator"
+  },
+  "workorders": [
+    {
+      "id": 21,
+      "operation": "Blowing",
+      "product": {
+        "id": 374,
+        "name": "لارينا كرتون 600 مل شد 30",
+        "quantity": 1
+      }
+    },
+    {
+      "id": 22,
+      "operation": "Labeling",
+      "product": {
+        "id": 374,
+        "name": "لارينا كرتون 600 مل شد 30",
+        "quantity": 1
+      }
+    },
+    {
+      "id": 23,
+      "operation": "Filling",
+      "product": {
+        "id": 374,
+        "name": "لارينا كرتون 600 مل شد 30",
+        "quantity": 1
+      }
+    },
+    {
+      "id": 24,
+      "operation": "Vario Packing",
+      "product": {
+        "id": 374,
+        "name": "لارينا كرتون 600 مل شد 30",
+        "quantity": 1
+      }
+    },
+    {
+      "id": 25,
+      "operation": "Palitizering",
+      "product": {
+        "id": 374,
+        "name": "لارينا كرتون 600 مل شد 30",
+        "quantity": 1
+      }
+    }
+  ]
+}

@@ -69,8 +69,17 @@ public double ActualValue
         {
             get
             {
-                double Returned = MeasureValue;
-                if(BufferIsPerHour)
+                
+
+                double Returned = MeasureValue-MeasureMinValue;
+                if (BufferMachineID > 0 || BufferCenterID > 0)
+                {
+                    if (MeasureValue == 1)
+                    { Returned = ((double)MeasureTime.Subtract(MeasureMinTime).Minutes) / 60; }
+                    else
+                        Returned = 0;
+                }
+                    if (BufferIsPerHour)
                 {
                    Returned= ((MeasureValue + MeasureMinValue + MeasureMaxValue + MeasureFirstValue) / 4) *(((double)MeasureTime.Subtract(MeasureMinTime).Minutes) / 60);
                 }
@@ -220,25 +229,25 @@ public double ActualValue
             set => _BufferMeasureDb.BufferCenterNameE = value;
             get => _BufferMeasureDb.BufferCenterNameE;
         }
-        public int mentID
+        public int MeasurementID
         {
-            set => _BufferMeasureDb.mentID = value;
-            get => _BufferMeasureDb.mentID;
+            set => _BufferMeasureDb.MeasurementID = value;
+            get => _BufferMeasureDb.MeasurementID;
         }
-        public string mentCode
+        public string MeasurementCode
         {
-            set => _BufferMeasureDb.mentCode = value;
-            get => _BufferMeasureDb.mentCode;
+            set => _BufferMeasureDb.MeasurementCode = value;
+            get => _BufferMeasureDb.MeasurementCode;
         }
-        public string mentNameA
+        public string MeasurementNameA
         {
-            set => _BufferMeasureDb.mentNameA = value;
-            get => _BufferMeasureDb.mentNameA;
+            set => _BufferMeasureDb.MeasurementNameA = value;
+            get => _BufferMeasureDb.MeasurementNameA;
         }
-        public string mentNameE
+        public string MeasurementNameE
         {
-            set => _BufferMeasureDb.mentNameE = value;
-            get => _BufferMeasureDb.mentNameE;
+            set => _BufferMeasureDb.MeasurementNameE = value;
+            get => _BufferMeasureDb.MeasurementNameE;
         }
         PLCBiz _PLCBiz;
         public PLCBiz PLCBiz { get
@@ -247,6 +256,15 @@ public double ActualValue
                 return _PLCBiz;
             }
         }
+        BufferBiz _BufferBiz;
+        public BufferBiz BufferBiz {
+            set=>_BufferBiz = value;
+            get {
+                if(_BufferBiz == null)
+                {
+                    _BufferBiz = new BufferBiz() { Code=_BufferMeasureDb.BufferCode,Desc=_BufferMeasureDb.BufferDesc,ID=_BufferMeasureDb.BufferID,Machine=_BufferMeasureDb.BufferMachineID,Measurement=_BufferMeasureDb.MeasureID,PLCBiz=PLCBiz,Product=_BufferMeasureDb.BufferProductID,Tag=_BufferMeasureDb.BufferTag,TypeBiz=new BufferTypeBiz() { Code=_BufferMeasureDb.BufferTypeCode,ID=_BufferMeasureDb.BufferTypeID,NameA=_BufferMeasureDb.BufferTypeNameA,NameE=_BufferMeasureDb.BufferTypeNameE},WorkCenter=_BufferMeasureDb.BufferCenterID };
+                }
+                return _BufferBiz; } }
         #endregion
         #region Private Method
 
@@ -266,7 +284,7 @@ public double ActualValue
         }
         public BufferMeasureBiz Copy()
         {
-            BufferMeasureBiz Returned = new BufferMeasureBiz() { BufferCenterCode = BufferCenterCode,BufferCenterID=BufferCenterID,BufferCenterNameA=BufferCenterNameA,BufferCenterNameE=BufferCenterNameE,BufferCode=BufferCode,BufferDesc=BufferDesc,BufferID=BufferID,BufferIsPerHour=BufferIsPerHour,BufferMachineCeneter=BufferMachineCeneter,BufferMachineCode=BufferMachineCode,BufferMachineDesc=BufferMachineDesc,BufferMachineFlow=BufferMachineFlow,BufferMachineID=BufferMachineID,BufferMachineNameA=BufferMachineNameA,BufferMachineNameE=BufferMachineNameE,BufferProductCode=BufferProductCode,BufferProductID=BufferProductID,BufferProductIsComposed=BufferProductIsComposed,BufferProductNameA=BufferProductNameA,BufferProductNameE=BufferProductNameE,BufferSize=BufferSize,BufferTag=BufferTag,BufferTypeCode=BufferTypeCode,BufferTypeID=BufferTypeID,BufferTypeNameA=BufferTypeNameA,BufferTypeNameE=BufferTypeNameE,MeasureDate=MeasureDate,MeasureFirstValue=MeasureFirstValue,MeasureID=MeasureID,MeasureMaxValue=MeasureMaxValue,MeasureMinTime=MeasureMinTime,MeasureMinValue=MeasureMinValue,MeasureTime=MeasureTime,MeasureValue=MeasureValue,MeasureWorkOrder=MeasureWorkOrder,mentCode=mentCode,mentID=mentID,mentNameA=mentNameA, mentNameE=mentNameE};
+            BufferMeasureBiz Returned = new BufferMeasureBiz() { BufferCenterCode = BufferCenterCode,BufferCenterID=BufferCenterID,BufferCenterNameA=BufferCenterNameA,BufferCenterNameE=BufferCenterNameE,BufferCode=BufferCode,BufferDesc=BufferDesc,BufferID=BufferID,BufferIsPerHour=BufferIsPerHour,BufferMachineCeneter=BufferMachineCeneter,BufferMachineCode=BufferMachineCode,BufferMachineDesc=BufferMachineDesc,BufferMachineFlow=BufferMachineFlow,BufferMachineID=BufferMachineID,BufferMachineNameA=BufferMachineNameA,BufferMachineNameE=BufferMachineNameE,BufferProductCode=BufferProductCode,BufferProductID=BufferProductID,BufferProductIsComposed=BufferProductIsComposed,BufferProductNameA=BufferProductNameA,BufferProductNameE=BufferProductNameE,BufferSize=BufferSize,BufferTag=BufferTag,BufferTypeCode=BufferTypeCode,BufferTypeID=BufferTypeID,BufferTypeNameA=BufferTypeNameA,BufferTypeNameE=BufferTypeNameE,MeasureDate=MeasureDate,MeasureFirstValue=MeasureFirstValue,MeasureID=MeasureID,MeasureMaxValue=MeasureMaxValue,MeasureMinTime=MeasureMinTime,MeasureMinValue=MeasureMinValue,MeasureTime=MeasureTime,MeasureValue=MeasureValue,MeasureWorkOrder=MeasureWorkOrder,MeasurementCode=MeasurementCode,MeasurementID=MeasurementID,MeasurementNameA=MeasurementNameA, MeasurementNameE=MeasurementNameE};
             return Returned;
         }
         #endregion

@@ -25,6 +25,7 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             set;
             get;
         }
+        public string DateStr { get => Date.ToString("yyyy-MM-dd"); }
         public DateTime StartTime
         {
             set;
@@ -32,7 +33,7 @@ namespace AlgorithmatENM.ERP.ERPBusiness
         }
         public string StartTimeStr
         {
-            get { return StartTime.ToString("MM-dd HH:mm"); }
+            get { return StartTime.ToString("HH:mm"); }
            
         }
         public string Desc
@@ -61,6 +62,7 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             set;
             get;
         }
+        public string StatusTimeStr { get => StatusTime.ToString("HH:mm"); }
         public int UserStarted { set; get; }
         public int BOM { set; get; }
         public int Product { set; get; }
@@ -86,7 +88,10 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             set;
             get;
         }
-        
+        public List<WorkOrderSimple> WorkorderLst { get; set; } = new List<WorkOrderSimple>();
+        public List<MOComponentSimple> ComponentLst { set; get; } = new List<MOComponentSimple>();
+
+        public List<MOComponentSimple> ByproductLst { set; get; } = new List<MOComponentSimple>();
         #endregion
     }
 }

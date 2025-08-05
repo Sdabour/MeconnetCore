@@ -1,0 +1,64 @@
+﻿@using AlgorithmatENM.ERP.ERPBusiness;
+
+
+<script src = "~/scripts/erp/bufferj.js" ></script >
+
+<script src="~/scripts/erp/buffer.js"></script>
+
+<div class="form-row">
+    <input type="hidden" id="lblCurrentBuffer" value="" />
+    <div class="col-1">
+        <input type="button" value="Buffer" class="btn btn-outline-primary" onclick="document.getElementById('myBufferModal').style.display='block'" />
+    </div>
+    <div class="col-3">
+        <label id="lblCurrentBufferPlc"></label>
+    </div>
+    <div class="col-3">
+        <label id="lblCurrentBufferCode"></label>
+    </div>
+    <div class="col-3">
+        <label id="lblCurrentBufferDesc"></label>
+    </div>
+</div>
+<div id="myBufferModal" class="modal" tabindex="-1">
+    <div class="modal-content">
+
+        <span id="BufferClose" class="close" onclick="document.getElementById('myBufferModal').style.display='none'">&times;</span>
+
+        <div class="form-row">
+            @{
+                PLCCol objPlcCol = new PLCCol(false);
+                BufferTypeCol objBufferTypeCol = new BufferTypeCol(false);
+
+            }
+            <div class="col-3">
+                <input type="text" id="txtBufferCode" class="form-control" />
+            </div>
+            <div class="col-3">
+                <select id="cmbBufferType" class="form-control">
+                    @foreach (BufferTypeBiz objBiz in objBufferTypeCol)
+                    {
+                        <option value="@objBiz.ID">@objBiz.NameA</option>
+                    }
+                </select>
+            </div>
+            <div class="col-3">
+                <select id="cmbPlc" class="form-control">
+                    @foreach (PLCBiz objBiz in objPlcCol)
+                    {
+                        <option value="@objBiz.ID">@objBiz.Desc</option>
+                    }
+                </select>
+            </div>
+            <div class="col-2">
+                <input type="button" value="search" onclick="FillBufferLst()" class="btn btn-outline-primary" />
+            </div>
+        </div>
+
+        <div class="table-responsive" id="tblBuffer">
+
+        </div>
+
+
+    </div>
+</div>

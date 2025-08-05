@@ -124,7 +124,15 @@ namespace AlgorithmatENM.ERP.ERPBusiness
 
         //public bool IsPerHour { set=>_BufferDb.}
         public double TempValue { set; get; }
-
+        BufferMeasureCol _MeasurementCol; 
+        public BufferMeasureCol MeasurementCol { set => _MeasurementCol = value;
+            get
+            {
+                if(_MeasurementCol == null)
+                    _MeasurementCol = new BufferMeasureCol(true);
+                return _MeasurementCol;
+            }
+        }
         #endregion
         #region Private Method
 

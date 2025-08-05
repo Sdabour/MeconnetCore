@@ -5,6 +5,9 @@
     ViewBag.Title = "MO Search";
     Layout = "~/Views/Shared/_LayoutMenue.cshtml";
 }
+
+
+
 <style>
     .dropbtn {
         background-color: #ddd;
@@ -64,6 +67,9 @@
         width: 60px;
     }
 </style>
+
+
+
 <div class="row">
     <div class="col-1">
 
@@ -81,21 +87,58 @@
 
     <div class="card-body">
         <div class="form-row">
-            <div class="dropdown">
+           @*  <div class="dropdown">
                 <button class="dropbtn" onclick="return false"></button>
                 <div class="dropdown-content">
                     <input type="button" class="dropbtn" value="طباعة" onclick="OnRegisterationSearchDownloadClick(0)" /><br />
                     <input type="button" class="dropbtn" value="طباعة 2" onclick="OnRegisterationSearchDownloadClick(2)" /><br />
                     <input type="button" class="dropbtn" value="اضافة 3" onclick="return ShowCommentModal()" /><br />
                 </div>
-            </div>
+            </div> *@
 
         </div>
         <div class="form-row">
             <input type="hidden" id="lblIDs" />
-           
+            <div class="col-1">All</div>
+           <div class="col-1">
+               <input type="radio" name="rdStatus" id="rdStatusAll" value="0" />
+           </div>
+            <div class="col-1">Created</div>
+            <div class="col-1">
+                <input type="radio" name="rdStatus" id="rdStatusCreated" value="1" />
+            </div>
+            <div class="col-1">Processing</div>
+            <div class="col-1">
+                <input type="radio" name="rdStatus" id="rdStatusProcessing" value="2" />
+            </div>
+            <div class="col-1">Paused</div>
+            <div class="col-1">
+                <input type="radio" name="rdStatus" id="rdStatusPaused" value="3" />
+            </div>
+            <div class="col-1">Canceled</div>
+            <div class="col-1">
+                <input type="radio" name="rdStatus" id="rdStatusCanceled" value="4" />
+            </div>
+            <div class="col-1">Finished</div>
+            <div class="col-1">
+                <input type="radio" name="rdStatus" id="rdStatusFinished" value="5" />
+            </div>
+        </div><br />
+        <div class="form-row">
+            <div class="col-1">
+                <input type="checkbox" id="chkIsDateRange" class="form-control" />
+            </div>
+            <div class="col-2">
+                <input type="date" id="dtStart" class="form-control" />
+            </div>
+            <div class="col-2">
+                <input type="date" id="dtEnd" class="form-control" />
+            </div>
+            <div class="col-2">
+                <input type="button" value="Search" onclick="FillMO();" class="btn btn-outline-primary" />
+            </div>
         </div>
-        <div id="dvMO" class="table-responsive table table-bordered table table-hover table-striped" style="max-height:90%;max-width:100%; text-align:center;scroll-behavior:auto;height:auto;">
+        <div id="tblMO" class="table-responsive" style="max-height:90%;max-width:100%; text-align:center;scroll-behavior:auto;height:auto;">
         </div>
     </div>
 </div>

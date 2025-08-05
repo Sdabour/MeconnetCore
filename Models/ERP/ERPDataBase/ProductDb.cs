@@ -171,7 +171,7 @@ FROM     dbo.ERPProduct LEFT OUTER JOIN
         }
         public DataTable Search()
         {
-            string strSql = SearchStr + " where Dis is null ";
+            string strSql = SearchStr + " where ERPProduct.Dis is null ";
 
 
             return SysData.SharpVisionBaseDb.ReturnDatatable(strSql);

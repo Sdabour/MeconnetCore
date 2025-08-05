@@ -18,6 +18,20 @@ namespace AlgorithmatENM.ERP.ERPBusiness
         {
 
         }
+        public BufferCol(int intBufferType,string strCode,int intPlc)
+        {
+            if (strCode == "EMBTY")
+                strCode = "";
+
+               
+            BufferDb objDb = new BufferDb() { Type = intBufferType, Code = strCode, PLC = intPlc };
+            DataTable dtTemp = objDb.Search();
+            foreach(DataRow objDr in dtTemp.Rows)
+            {
+                Add(new BufferBiz(objDr));
+            }
+
+        }
         public BufferCol(bool blIsEmbty)
         {
             if (blIsEmbty)
@@ -76,6 +90,67 @@ namespace AlgorithmatENM.ERP.ERPBusiness
                 return Returned;
             }
         }
+        static Hashtable _CacheBufferHs;
+        public static Hashtable CacheBufferHs
+        {
+            get {
+                if(_CacheBufferHs== null)
+                {
+                    _CacheBufferHs = new Hashtable();
+                    BufferCol objCol = new BufferCol(false);
+                    foreach(BufferBiz objBiz in objCol)
+                    {
+                        if (objBiz.ID!=0&& _CacheBufferHs[objBiz.ID.ToString()]==null)
+                        {
+                            _CacheBufferHs.Add(objBiz.ID.ToString(), objBiz);
+                        }
+                    }
+                }
+                return _CacheBufferHs;
+            }
+        }
+        static Hashtable _CacheMachineBufferHs;
+        public static Hashtable CacheMachineBufferHs
+        {
+            get
+            {
+                if (_CacheMachineBufferHs == null)
+                {
+                    _CacheMachineBufferHs = new Hashtable();
+                    BufferBiz objBiz = new BufferBiz();
+                    foreach (object objKey in CacheBufferHs.Keys)
+                    {
+                        objBiz = (BufferBiz)CacheBufferHs[ objKey];
+                        if (objBiz.Machine != 0 && _CacheMachineBufferHs[objBiz.Machine.ToString()] == null)
+                        {
+                            _CacheMachineBufferHs.Add(objBiz.Machine.ToString(), objBiz);
+                        }
+                    }
+                }
+                return _CacheMachineBufferHs;
+            }
+        }
+        static Hashtable _CacheProductBufferHs;
+        public static Hashtable CacheProductBufferHs
+        {
+            get
+            {
+                if (_CacheProductBufferHs == null)
+                {
+                    _CacheProductBufferHs = new Hashtable();
+                    BufferBiz objBiz = new BufferBiz();
+                    foreach (object objKey in CacheBufferHs.Keys)
+                    {
+                        objBiz = (BufferBiz)CacheBufferHs[objKey];
+                        if (objBiz.Product != 0 && _CacheProductBufferHs[objBiz.Product.ToString()] == null)
+                        {
+                            _CacheProductBufferHs.Add(objBiz.Product.ToString(), objBiz);
+                        }
+                    }
+                }
+                return _CacheProductBufferHs;
+            }
+        }
         #endregion
         #region Private Method
 
@@ -104,7 +179,7 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             {
                 objDr = Returned.NewRow();
                 objDr["BufferID"] = objBiz.ID;
-                objDr["BufferType"] = objBiz.Type;
+                objDr["BufferType"] = objBiz.TypeBiz.ID;
                 objDr["BufferCode"] = objBiz.Code;
                 objDr["BufferDesc"] = objBiz.Desc;
                 objDr["BufferSize"] = objBiz.Size;
@@ -113,7 +188,7 @@ namespace AlgorithmatENM.ERP.ERPBusiness
                 objDr["BufferMachine"] = objBiz.Machine;
                 objDr["BufferProduct"] = objBiz.Product;
                 objDr["BufferMeasurement"] = objBiz.Measurement;
-                objDr["BufferPLC"] = objBiz.PLC;
+                objDr["BufferPLC"] = objBiz.PLCBiz.ID;
                 objDr["BufferPLCDataType"] = objBiz.PLCDataType;
                 objDr["BufferPLCVarType"] = objBiz.PLCVarType;
                 Returned.Rows.Add(objDr);

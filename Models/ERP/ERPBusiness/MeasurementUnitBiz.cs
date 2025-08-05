@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using AlgorithmatENM.ERP.ERPDataBase;
+using AlgorithmatENM.ERP.ERPBusiness;
 
 namespace AlgorithmatENM.Models.ERP.ERPBusiness
 {
@@ -60,6 +61,7 @@ namespace AlgorithmatENM.Models.ERP.ERPBusiness
             set => _MeasurementUnitDb.IsBasic = value;
             get => _MeasurementUnitDb.IsBasic;
         }
+
         #endregion
         #region Private Method
 
@@ -76,6 +78,10 @@ namespace AlgorithmatENM.Models.ERP.ERPBusiness
         public void Delete()
         {
             _MeasurementUnitDb.Delete();
+        }
+        public MeasurementUnitSimple GetSimple()
+        { 
+        return new MeasurementUnitSimple() { Code = _MeasurementUnitDb.Code,Factor = _MeasurementUnitDb.Factor ,ID=ID,IsBasic=IsBasic,Main= Main ,NameA= NameA ,NameE = NameE  };
         }
         #endregion
     }

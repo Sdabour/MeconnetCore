@@ -150,7 +150,7 @@ namespace AlgorithmatENM.ERP.ERPDataBase
                 string Returned = @"SELECT dbo.ERPBuffer.BufferID, dbo.ERPBuffer.BufferType, dbo.ERPBuffer.BufferCode, dbo.ERPBuffer.BufferDesc, dbo.ERPBuffer.BufferSize, dbo.ERPBuffer.BufferTag, dbo.ERPBuffer.BufferWorkCenter, dbo.ERPBuffer.BufferMachine, 
                   dbo.ERPBuffer.BufferProduct, dbo.ERPBuffer.BufferMeasurement, dbo.ERPBuffer.BufferPLC, dbo.ERPBuffer.BufferPLCDataType, dbo.ERPBuffer.BufferPLCVarType,dbo.ERPBuffer.BufferThreshold,BufferTypeTable.*,PLCTable.*  
    FROM     dbo.ERPBuffer INNER JOIN
-                 "+new BufferTypeDb().SearchStr+@" AS BufferTypeTable ON dbo.ERPBuffer.BufferType = BufferTypeTable.TypeID LEFT OUTER JOIN
+                 ("+new BufferTypeDb().SearchStr+@") AS BufferTypeTable ON dbo.ERPBuffer.BufferType = BufferTypeTable.TypeID LEFT OUTER JOIN
                   dbo.ERPMeasurementUnit AS MeasureUnitTable ON dbo.ERPBuffer.BufferMeasurement = MeasureUnitTable.MeasurementID LEFT OUTER JOIN
                    (" + new PLCDb().SearchStr + @") AS PLCTable ON dbo.ERPBuffer.BufferPLC = PLCTable.PLCID LEFT OUTER JOIN
                   dbo.ERPMachine AS MachineTable ON dbo.ERPBuffer.BufferMachine = MachineTable.MachineID LEFT OUTER JOIN
@@ -230,8 +230,17 @@ namespace AlgorithmatENM.ERP.ERPDataBase
         public DataTable Search()
         {
             string strSql = SearchStr + " where ERPBuffer.Dis is null ";
-
-
+            if (_Code != null && _Code != "")
+                strSql += " and (BufferCode like '%"+ _Code + "%' or BufferDesc like '%"+ _Code +"%' )";
+            if (_Type != 0)
+            {
+                strSql += " and BufferType=" + _Type;
+            }
+            if (_PLC!= 0)
+            {
+                strSql += " and BufferPLC = "+_PLC;
+            }
+           
             return SysData.SharpVisionBaseDb.ReturnDatatable(strSql);
         }
         public void SaveBufferTable()

@@ -16,3 +16,5 @@ declare class Buffer {
     IsPerHour: boolean;
 }
 declare function GetBufferRow(objBiz: Buffer): string;
+declare function FillBufferTable(arrBuffer: Buffer[]): void;
+declare function ReturnBuffer(vrID: number): void;

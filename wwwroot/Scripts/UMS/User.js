@@ -117,6 +117,9 @@ function SetUserData(vrUser) {
     if (document.getElementById("GroupID") != null) {
         document.getElementById("GroupID").value = vrUser.Group.toString();
     }
+    if (document.getElementById("txtToken") != null) {
+        document.getElementById("txtToken").innerText = vrUser.Token.toString();
+    }
     var vrEmployee = new Employee();
     vrEmployee.ID = vrUser.EmployeeID;
     vrEmployee.Name = vrUser.EmployeeName;

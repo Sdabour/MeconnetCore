@@ -3,6 +3,7 @@
     public ID: number;
     public Name: string;
     public Password: string;
+    public Token: string;
     public FullName: string="";
     public EmployeeID: number;
     public EmployeeCode: string="";
@@ -117,6 +118,7 @@ function ReturnUser(vrUserID: number) {
     if (document.getElementById("lblAllUser") != null && (<HTMLInputElement>document.getElementById("lblAllUser")).value != "") {
         lstUser = JSON.parse((<HTMLInputElement>document.getElementById("lblAllUser")).value);
     }
+
     var lstUserFilter: User[] = [];
     lstUserFilter = lstUser.filter(x => x.ID == vrUserID);
     if (lstUserFilter.length == 0)
@@ -141,6 +143,10 @@ function SetUserData(vrUser: User) {
     }
     if (document.getElementById("GroupID") != null) {
         (<HTMLInputElement>document.getElementById("GroupID")).value = vrUser.Group.toString();
+
+    }
+    if (document.getElementById("txtToken") != null) {
+        (<HTMLInputElement>document.getElementById("txtToken")).innerText = vrUser.Token.toString();
 
     }
     var vrEmployee: Employee = new Employee();

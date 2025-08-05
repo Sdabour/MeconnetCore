@@ -6,6 +6,7 @@ using System.Data;
 using System.Collections;
 using AlgorithmatENM.ERP.ERPDataBase;
 using SharpVision.SystemBase;
+using SharpVision.UMS.UMSBusiness;
 namespace AlgorithmatENM.Models.ERP.ERPBusiness
 {
     public class MeasurementUnitCol:CollectionBase
@@ -88,7 +89,38 @@ namespace AlgorithmatENM.Models.ERP.ERPBusiness
             }
             return Returned;
         }
+        static Hashtable _MeasureCodeHs ;
+       public static Hashtable MeasureCodeHs
+        {
+            get {
+                if (_MeasureCodeHs == null)
+                {
+                    _MeasureCodeHs = new Hashtable();
+                    MeasurementUnitCol objCol = new MeasurementUnitCol(false);
+                    string strRef = "";// SysUtility.ReplaceStringComp()
+                    foreach (MeasurementUnitBiz objBiz in objCol)
+                    {
+                        strRef = objBiz.Code;//SysUtility.ReplaceStringComp(objBiz.NameA);
+                        if (objBiz.ID == 0 || strRef == "" || _MeasureCodeHs[strRef] != null) {
+                            continue;
+                        }
+                        _MeasureCodeHs.Add(strRef, objBiz);
+                    }
+                }
+            return _MeasureCodeHs;
+            }
+        }
 
+        public static MeasurementUnitBiz GetMeasureUnitByRef(string strRef)
+        {
+            MeasurementUnitBiz Returned = new MeasurementUnitBiz();
+            if (MeasureCodeHs[strRef]!=null)
+            {
+                Returned = (MeasurementUnitBiz)MeasureCodeHs[strRef];
+            }
+
+            return Returned;
+        }
         #endregion
     }
 }

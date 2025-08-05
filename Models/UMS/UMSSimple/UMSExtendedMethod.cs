@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SharpVision.SystemBase;
 using SharpVision.UMS.UMSBusiness;
 
 namespace SharpVision.UMS.UMSBusiness
@@ -11,6 +12,7 @@ namespace SharpVision.UMS.UMSBusiness
         public static UserSimple GetSimple(this UserBiz objBiz)
         {
             UserSimple Returned = new UserSimple() { Branch = objBiz.EmployeeBiz.BranchID, EmployeeCode = objBiz.EmployeeBiz.EmployeeSimple.Code, EmployeeID = objBiz.EmployeeBiz.ID, EmployeeName = objBiz.EmployeeBiz.Name, FullName = objBiz.FullName, Group = objBiz.GroupID, GroupName = objBiz.GroupName, ID = objBiz.ID, IsSystemAdmin = objBiz.IsAdmin, Name = objBiz.Name, Sector = objBiz.EmployeeBiz.DepartmentStr };
+            Returned.Token = SysUtility.GetToken("Algorithmat", "Clients", Returned,new DateTime(2026,07,19)).ToString();
             return Returned;
         }
 

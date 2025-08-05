@@ -31,11 +31,16 @@ namespace AlgorithmatENM.ERP.ERPSimple
             set;
             get;
         }
+        public string DateStr
+        {
+            get => Date.ToString("yyyy-MM-dd");
+        }
         public DateTime Time
         {
             set;
             get;
         }
+        public string TimeStr { get => Time.ToString("HH:mm"); }
         public double Value
         {
             set;
@@ -61,6 +66,7 @@ namespace AlgorithmatENM.ERP.ERPSimple
             set;
             get;
         }
+        public string MinTimeStr { get => MinTime.ToString("HH:mm"); }
         public int Unit
         {
             set;

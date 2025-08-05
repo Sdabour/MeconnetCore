@@ -229,29 +229,29 @@ namespace AlgorithmatENM.ERP.ERPDataBase
             set => _BufferCenterNameE = value;
             get => _BufferCenterNameE;
         }
-        int _mentID;
-        public int mentID
+        int _MeasurementID;
+        public int MeasurementID
         {
-            set => _mentID = value;
-            get => _mentID;
+            set => _MeasurementID = value;
+            get => _MeasurementID;
         }
-        string _mentCode;
-        public string mentCode
+        string _MeasurementCode;
+        public string MeasurementCode
         {
-            set => _mentCode = value;
-            get => _mentCode;
+            set => _MeasurementCode = value;
+            get => _MeasurementCode;
         }
-        string _mentNameA;
-        public string mentNameA
+        string _MeasurementNameA;
+        public string MeasurementNameA
         {
-            set => _mentNameA = value;
-            get => _mentNameA;
+            set => _MeasurementNameA = value;
+            get => _MeasurementNameA;
         }
-        string _mentNameE;
-        public string mentNameE
+        string _MeasurementNameE;
+        public string MeasurementNameE
         {
-            set => _mentNameE = value;
-            get => _mentNameE;
+            set => _MeasurementNameE = value;
+            get => _MeasurementNameE;
         }
         bool _IsDateRange;
         public bool IsDateRange { set => _IsDateRange = value; }
@@ -261,11 +261,15 @@ namespace AlgorithmatENM.ERP.ERPDataBase
         public DateTime EndDate { set => _EndDate = value; }
         bool _OnlyLastRead;
         public bool OnlyLastRead { set => _OnlyLastRead = value; }
+        string _MOIDs;
+        public string MOIDs{set=>_MOIDs=value; }
+        string _BufferIDs;
+        public string BufferIDs { set=>_BufferIDs=value; }
         public string AddStr
         {
             get
             {
-                string Returned = " insert into ERPBufferMeasure (MeasureID,MeasureWorkOrder,MeasureDate,MeasureTime,MeasureValue,MeasureFirstValue,MeasureMinValue,MeasureMaxValue,MeasureMinTime,BufferID,BufferCode,BufferDesc,BufferSize,BufferTag,BufferTypeID,BufferTypeCode,BufferTypeNameA,BufferTypeNameE,BufferMachineID,BufferMachineCeneter,BufferMachineFlow,BufferMachineCode,BufferMachineDesc,BufferMachineNameA,BufferMachineNameE,BufferProductID,BufferProductCode,BufferProductNameA,BufferProductNameE,BufferCenterID,BufferCenterCode,BufferCenterNameA,BufferCenterNameE,BufferMeasurementID,BufferMeasurementCode,BufferMeasurementNameA,BufferMeasurementNameE,UsrIns,TimIns) values (," + MeasureID + ",'" + MeasureWorkOrder + "'," + (MeasureDate.ToOADate() - 2).ToString() + "," + (MeasureTime.ToOADate() - 2).ToString() + "," + MeasureValue + "," + MeasureFirstValue + "," + MeasureMinValue + "," + MeasureMaxValue + "," + (MeasureMinTime.ToOADate() - 2).ToString() + "," + BufferID + ",'" + BufferCode + "','" + BufferDesc + "'," + BufferSize + ",'" + BufferTag + "'," + BufferTypeID + ",'" + BufferTypeCode + "','" + BufferTypeNameA + "','" + BufferTypeNameE + "'," + BufferMachineID + "," + BufferMachineCeneter + "," + BufferMachineFlow + ",'" + BufferMachineCode + "','" + BufferMachineDesc + "','" + BufferMachineNameA + "','" + BufferMachineNameE + "'," + BufferProductID + ",'" + BufferProductCode + "','" + BufferProductNameA + "','" + BufferProductNameE + "'," + BufferCenterID + ",'" + BufferCenterCode + "','" + BufferCenterNameA + "','" + BufferCenterNameE + "'," + mentID + ",'" + mentCode + "','" + mentNameA + "','" + mentNameE + "'," + SysData.CurrentUser.ID + ",GetDate() ) ";
+                string Returned = " insert into ERPBufferMeasure (MeasureID,MeasureWorkOrder,MeasureDate,MeasureTime,MeasureValue,MeasureFirstValue,MeasureMinValue,MeasureMaxValue,MeasureMinTime,BufferID,BufferCode,BufferDesc,BufferSize,BufferTag,BufferTypeID,BufferTypeCode,BufferTypeNameA,BufferTypeNameE,BufferMachineID,BufferMachineCeneter,BufferMachineFlow,BufferMachineCode,BufferMachineDesc,BufferMachineNameA,BufferMachineNameE,BufferProductID,BufferProductCode,BufferProductNameA,BufferProductNameE,BufferCenterID,BufferCenterCode,BufferCenterNameA,BufferCenterNameE,BufferMeasurementID,BufferMeasurementCode,BufferMeasurementNameA,BufferMeasurementNameE,UsrIns,TimIns) values (," + MeasureID + ",'" + MeasureWorkOrder + "'," + (MeasureDate.ToOADate() - 2).ToString() + "," + (MeasureTime.ToOADate() - 2).ToString() + "," + MeasureValue + "," + MeasureFirstValue + "," + MeasureMinValue + "," + MeasureMaxValue + "," + (MeasureMinTime.ToOADate() - 2).ToString() + "," + BufferID + ",'" + BufferCode + "','" + BufferDesc + "'," + BufferSize + ",'" + BufferTag + "'," + BufferTypeID + ",'" + BufferTypeCode + "','" + BufferTypeNameA + "','" + BufferTypeNameE + "'," + BufferMachineID + "," + BufferMachineCeneter + "," + BufferMachineFlow + ",'" + BufferMachineCode + "','" + BufferMachineDesc + "','" + BufferMachineNameA + "','" + BufferMachineNameE + "'," + BufferProductID + ",'" + BufferProductCode + "','" + BufferProductNameA + "','" + BufferProductNameE + "'," + BufferCenterID + ",'" + BufferCenterCode + "','" + BufferCenterNameA + "','" + BufferCenterNameE + "'," + MeasurementID + ",'" + MeasurementCode + "','" + MeasurementNameA + "','" + MeasurementNameE + "'," + SysData.CurrentUser.ID + ",GetDate() ) ";
                 return Returned;
             }
         }
@@ -306,10 +310,10 @@ namespace AlgorithmatENM.ERP.ERPDataBase
            ",BufferCenterCode='" + BufferCenterCode + "'" +
            ",BufferCenterNameA='" + BufferCenterNameA + "'" +
            ",BufferCenterNameE='" + BufferCenterNameE + "'" +
-           ",BufferMeasurementID=" + mentID + "" +
-           ",BufferMeasurementCode='" + mentCode + "'" +
-           ",BufferMeasurementNameA='" + mentNameA + "'" +
-           ",BufferMeasurementNameE='" + mentNameE + "'" + ",UsrUpd=" + SysData.CurrentUser.ID + @",TimUpd=GetDate()  where ";
+           ",BufferMeasurementID=" + MeasurementID + "" +
+           ",BufferMeasurementCode='" + MeasurementCode + "'" +
+           ",BufferMeasurementNameA='" + MeasurementNameA + "'" +
+           ",BufferMeasurementNameE='" + MeasurementNameE + "'" + ",UsrUpd=" + SysData.CurrentUser.ID + @",TimUpd=GetDate()  where ";
                 return Returned;
             }
         }
@@ -321,12 +325,16 @@ namespace AlgorithmatENM.ERP.ERPDataBase
                 return Returned;
             }
         }
+        int _MO;
+        public int MO { set => _MO = value; get => _MO; }
+         
         public string SearchStr
         {
             get
             {
-                string Returned = @" SELECT dbo.ERPBufferMeasure.MeasureID, dbo.ERPBufferMeasure.MeasureWorkOrder, dbo.ERPBufferMeasure.MeasureDate, dbo.ERPBufferMeasure.MeasureTime, dbo.ERPBufferMeasure.MeasureValue, 
-                  dbo.ERPBufferMeasure.MeasureFirstValue, dbo.ERPBufferMeasure.MeasureMinValue, dbo.ERPBufferMeasure.MeasureMaxValue, dbo.ERPBufferMeasure.MeasureMinTime, dbo.ERPBuffer.BufferID, dbo.ERPBuffer.BufferCode, 
+                string strMeasureTable = _MO==0? " dbo.ERPBufferMeasure ": " dbo.ERPMOBufferMeasure ";
+                string Returned = @" SELECT MeasureTable.MeasureID, MeasureTable.MeasureWorkOrder, MeasureTable.MeasureDate, MeasureTable.MeasureTime, MeasureTable.MeasureValue, 
+                  MeasureTable.MeasureFirstValue, MeasureTable.MeasureMinValue, MeasureTable.MeasureMaxValue, MeasureTable.MeasureMinTime, dbo.ERPBuffer.BufferID, dbo.ERPBuffer.BufferCode, 
                   dbo.ERPBuffer.BufferDesc, dbo.ERPBuffer.BufferSize, dbo.ERPBuffer.BufferTag,dbo.ERPBuffer.BufferIsPerHour, dbo.ERPBufferType.TypeID AS BufferTypeID, dbo.ERPBufferType.TypeCode AS BufferTypeCode, dbo.ERPBufferType.TypeNameA AS BufferTypeNameA, 
                   dbo.ERPBufferType.TypeNameE AS BufferTypeNameE, dbo.ERPMachine.MachineID AS BufferMachineID, dbo.ERPMachine.MachineCenter AS BufferMachineCeneter, dbo.ERPMachine.MachineFlow AS BufferMachineFlow, 
                   dbo.ERPMachine.MachineCode AS BufferMachineCode, dbo.ERPMachine.MachineDesc AS BufferMachineDesc, dbo.ERPMachine.MachineNameA AS BufferMachineNameA, dbo.ERPMachine.MachineNameE AS BufferMachineNameE, 
@@ -337,8 +345,8 @@ namespace AlgorithmatENM.ERP.ERPDataBase
                   dbo.ERPMeasurementUnit.MeasurementNameE AS BufferMeasurementNameE,
 dbo.ERPPLC.PLCID, dbo.ERPPLC.PLCDesc, dbo.ERPPLC.PLCIP
 
-FROM     dbo.ERPBufferMeasure INNER JOIN
-                  dbo.ERPBuffer ON dbo.ERPBufferMeasure.BufferID = dbo.ERPBuffer.BufferID INNER JOIN
+FROM   "+strMeasureTable+@" as  MeasureTable INNER JOIN
+                  dbo.ERPBuffer ON MeasureTable.BufferID = dbo.ERPBuffer.BufferID INNER JOIN
                   dbo.ERPBufferType ON dbo.ERPBuffer.BufferType = dbo.ERPBufferType.TypeID left outer JOIN
                   dbo.ERPMeasurementUnit ON dbo.ERPBuffer.BufferMeasurement = dbo.ERPMeasurementUnit.MeasurementID LEFT OUTER JOIN
                   dbo.ERPWorkCenter ON dbo.ERPBuffer.BufferWorkCenter = dbo.ERPWorkCenter.CenterID LEFT OUTER JOIN
@@ -463,16 +471,16 @@ GROUP BY BufferID, MeasureDate";
                 _BufferCenterNameE = objDr["BufferCenterNameE"].ToString();
 
             if (objDr.Table.Columns["BufferMeasurementID"] != null)
-                int.TryParse(objDr["BufferMeasurementID"].ToString(), out _mentID);
+                int.TryParse(objDr["BufferMeasurementID"].ToString(), out _MeasurementID);
 
             if (objDr.Table.Columns["BufferMeasurementCode"] != null)
-                _mentCode = objDr["BufferMeasurementCode"].ToString();
+                _MeasurementCode = objDr["BufferMeasurementCode"].ToString();
 
             if (objDr.Table.Columns["BufferMeasurementNameA"] != null)
-                _mentNameA = objDr["BufferMeasurementNameA"].ToString();
+                _MeasurementNameA = objDr["BufferMeasurementNameA"].ToString();
 
             if (objDr.Table.Columns["BufferMeasurementNameE"] != null)
-                _mentNameE = objDr["BufferMeasurementNameE"].ToString();
+                _MeasurementNameE = objDr["BufferMeasurementNameE"].ToString();
             if (objDr.Table.Columns["BufferIsPerHour"] != null)
                 bool.TryParse(objDr["BufferIsPerHour"].ToString(), out _BufferIsPerHour);
             if (objDr.Table.Columns["BufferProductIsComposed"] != null)
@@ -504,6 +512,8 @@ GROUP BY BufferID, MeasureDate";
         {
             //_OnlyLastRead = true;
             string strSql = SearchStr + " where (1=1) ";
+            if (_MO != 0)
+                strSql += " and MeasureTable.MeasureMO ="+_MO;
            // _BufferID = 66;
             //_IsDateRange = true;
             //_StartDate = DateTime.Now.AddDays(-1);
@@ -511,7 +521,7 @@ GROUP BY BufferID, MeasureDate";
             if (_BufferID != 0)
                 strSql += " and dbo.ERPBuffer.BufferID="+_BufferID;
             if (_IsDateRange)
-                strSql += " and dbo.ERPBufferMeasure.MeasureDate >="+(_StartDate.Date.ToOADate()-2) + " and dbo.ERPBufferMeasure.MeasureDate <"+(_EndDate.Date.ToOADate()-1);
+                strSql += " and MeasureTable.MeasureDate >="+(_StartDate.Date.ToOADate()-2) + " and MeasureTable.MeasureDate <"+(_EndDate.Date.ToOADate()-1);
             return SysData.SharpVisionBaseDb.ReturnDatatable(strSql);
         }
         #endregion

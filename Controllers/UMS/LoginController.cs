@@ -27,6 +27,8 @@ namespace AlgorithmatENMMVCCore.Controllers
 
            
             UserBiz objNewUser = new UserBiz();
+            if (objUserBiz == null)
+                objUserBiz = new UserSimple();
             string strUserName = objUserBiz.Name;//Request.Form["Name"];
             //Session[]
             string strPass = objUserBiz.Password;

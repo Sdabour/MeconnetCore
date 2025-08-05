@@ -1,0 +1,135 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@using AlgorithmatENM.ERP.ERPBusiness;
+@{
+   // ViewBag.Title = "Buffer Measure Search";
+    Layout = "~/Views/Shared/_LayoutMenue.cshtml";
+}
+ 
+ 
+<script src="~/scripts/erp/buffermeasure.js"></script>
+<style>
+    label {
+        justify-content: center;
+        text-align: center;
+    }
+    .dropbtn {
+        background-color: #ddd;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #ddd;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            /* Change color of dropdown links on hover */
+            .dropdown-content a:hover {
+                background-color: #ddd;
+            }
+
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Change the background color of the dropdown button when the dropdown content is shown */
+    .dropdown:hover .dropbtn {
+        background-color: #ddd;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        display: block;
+        width: 60px;
+    }
+</style>
+<div class="row">
+    <div class="col-1">
+    </div>
+</div>
+<div class="card" style="max-height:auto;scroll-behavior:auto;">
+    <div class="card-header bg-teal-400 text-white header-elements-inline">
+        <h6 class="card-title">Buffer Measure</h6>
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" data-action="collapse"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="form-row">
+           @*  <div class="dropdown">
+                <button class="dropbtn" onclick="return false"></button>
+                <div class="dropdown-content">
+                    <input type="button" class="dropbtn" value="طباعة" onclick="OnRegisterationSearchDownloadClick(0)" /><br />
+                    <input type="button" class="dropbtn" value="طباعة 2" onclick="OnRegisterationSearchDownloadClick(2)" /><br />
+                    <input type="button" class="dropbtn" value="اضافة 3" onclick="return ShowCommentModal()" /><br />
+                </div>
+            </div> *@
+
+        </div><br />
+      <div class="form-row">
+          <div class="col">
+        @{
+
+            Html.RenderPartial("../buffer/bufferexplore");
+        }
+        </div>
+        </div><br />
+        <div class="form-row">
+            <div class="col-1">
+                <input type="checkbox" id="chkIsDateRange" class="form-control"/>
+            </div>
+            <div class="col-2">
+                <input type="date" id="dtStart" class="form-control"/>
+            </div>
+            <div class="col-2">
+                <input type="date" id="dtEnd" class="form-control" />
+            </div>
+            <div class="col-2">
+                <input type="button" value="Search" onclick="FillBufferMeasure();" class="btn btn-outline-primary" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <input type="hidden" id="lblIDs" />
+
+        </div>
+      
+        <div id="tblBufferMeasure" class="table-responsive" style="max-height:90%;max-width:100%; text-align:center;scroll-behavior:auto;height:auto;">
+        </div>
+    </div>
+</div>

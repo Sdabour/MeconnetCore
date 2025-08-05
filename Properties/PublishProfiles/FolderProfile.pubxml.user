@@ -5,10 +5,76 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\SamehWork\ENM\AlgorithmatENMMVCCore\AlgorithmatENMMVCCore\bin\Release\net6.0\publish\</_PublishTargetUrl>
-    <History>True|2025-05-26T17:58:36.1747180Z||;True|2025-05-25T08:26:15.0975763+03:00||;True|2025-05-19T07:47:29.8460386+03:00||;False|2025-05-12T06:39:49.4873167+03:00||;True|2025-05-11T22:21:24.5902746+03:00||;True|2025-05-11T20:34:40.3757840+03:00||;True|2025-04-28T06:52:02.8062433+03:00||;True|2025-04-25T18:14:39.3166832+03:00||;True|2025-03-09T22:14:09.7846576+02:00||;</History>
+    <History>True|2025-08-05T03:50:41.2713790Z||;True|2025-08-04T13:19:15.0982414+03:00||;True|2025-08-04T13:01:44.5680351+03:00||;True|2025-08-04T12:45:15.6243566+03:00||;True|2025-08-04T12:06:26.3744738+03:00||;True|2025-08-04T12:00:44.5251203+03:00||;True|2025-08-04T06:37:03.9471827+03:00||;False|2025-08-04T06:33:11.5384467+03:00||;True|2025-07-27T08:15:10.5146312+03:00||;True|2025-07-27T00:38:23.9150210+03:00||;True|2025-07-23T06:37:53.4061031+03:00||;True|2025-07-22T22:55:38.9255344+03:00||;True|2025-07-22T17:06:41.8585225+03:00||;True|2025-07-22T16:21:46.4381931+03:00||;True|2025-07-22T15:45:23.5497013+03:00||;True|2025-07-22T14:54:58.7743018+03:00||;True|2025-07-22T12:12:35.3399508+03:00||;True|2025-07-22T09:45:34.7047340+03:00||;True|2025-07-22T07:53:35.3728979+03:00||;False|2025-07-22T07:51:50.8364834+03:00||;True|2025-07-22T07:14:36.3286915+03:00||;True|2025-07-22T06:17:58.5709060+03:00||;True|2025-07-21T23:33:28.9163943+03:00||;True|2025-07-21T23:09:36.0820426+03:00||;True|2025-07-21T22:54:07.6220091+03:00||;True|2025-07-21T19:59:17.3639188+03:00||;True|2025-07-21T18:02:11.7316298+03:00||;True|2025-07-21T16:47:11.8961708+03:00||;True|2025-07-21T16:45:17.6561191+03:00||;True|2025-07-21T07:32:23.4142263+03:00||;True|2025-07-21T06:37:12.2506802+03:00||;True|2025-07-20T11:56:46.3066148+03:00||;True|2025-07-20T10:15:53.2422387+03:00||;True|2025-07-20T06:52:10.4233437+03:00||;True|2025-07-19T12:20:33.7533747+03:00||;True|2025-07-19T09:28:37.5453218+03:00||;True|2025-07-14T22:22:39.9767250+03:00||;True|2025-07-03T14:32:36.2947665+03:00||;True|2025-07-03T11:29:36.6244732+03:00||;True|2025-07-03T09:44:59.8523695+03:00||;True|2025-05-26T20:58:36.1747180+03:00||;True|2025-05-25T08:26:15.0975763+03:00||;True|2025-05-19T07:47:29.8460386+03:00||;False|2025-05-12T06:39:49.4873167+03:00||;True|2025-05-11T22:21:24.5902746+03:00||;True|2025-05-11T20:34:40.3757840+03:00||;True|2025-04-28T06:52:02.8062433+03:00||;True|2025-04-25T18:14:39.3166832+03:00||;True|2025-03-09T22:14:09.7846576+02:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
+    <File Include="wwwroot/Scripts/CRM/CheckSimple.ts">
+      <publishTime>06/17/2023 17:37:13</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/CheckSimpleJS.js">
+      <publishTime>04/29/2023 20:13:54</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/CustomerSimple.ts">
+      <publishTime>06/17/2023 13:31:33</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/DiscountSimple.js.map">
+      <publishTime>02/07/2025 07:24:17</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/DiscountSimple.ts">
+      <publishTime>03/26/2023 22:48:19</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/InstallmentGroup.ts">
+      <publishTime>06/14/2023 07:11:34</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/InstallmentSimple.js.map">
+      <publishTime>02/07/2025 07:24:17</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/InstallmentSimple.ts">
+      <publishTime>12/31/2023 19:48:30</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/InstallmentType.js.map">
+      <publishTime>02/07/2025 07:24:17</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/InstallmentType.ts">
+      <publishTime>01/26/2023 22:22:02</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/PaymentSimple.js.map">
+      <publishTime>02/07/2025 07:24:17</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/PaymentSimple.ts">
+      <publishTime>07/10/2023 08:15:30</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/PaymentSimpleJ.js">
+      <publishTime>07/10/2023 05:41:40</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/ReservationJ.js">
+      <publishTime>06/16/2023 12:57:05</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/ReservationSimple.js.map">
+      <publishTime>02/07/2025 07:24:17</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/ReservationSimple.ts">
+      <publishTime>06/13/2023 17:41:17</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/SerializableSimple.js.map">
+      <publishTime>02/07/2025 07:24:17</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/SerializableSimple.ts">
+      <publishTime>03/24/2023 11:55:30</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/SimpleValue.js.map">
+      <publishTime>02/07/2025 07:24:17</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/SimpleValue.ts">
+      <publishTime>05/09/2023 06:31:15</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/UnitSimple.js.map">
+      <publishTime>02/07/2025 07:24:17</publishTime>
+    </File>
+    <File Include="wwwroot/Scripts/CRM/UnitSimple.ts">
+      <publishTime>06/15/2023 00:11:52</publishTime>
+    </File>
     <File Include="wwwroot/Scripts/ENM/beep-12.wav">
       <publishTime>01/10/2024 16:45:39</publishTime>
     </File>

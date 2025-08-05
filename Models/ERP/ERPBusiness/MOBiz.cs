@@ -1,9 +1,13 @@
-﻿using System;
+﻿using AlgorithmatENM.ERP.ERPBusiness;
+using AlgorithmatENM.ERP.ERPDataBase;
+using AlgorithmatENM.Models.ERP.ERPBusiness;
+using AlgorithmatENMMVCCore.Hubs;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
-using AlgorithmatENM.ERP.ERPDataBase;
-using System.Data;
 
 namespace AlgorithmatENM.ERP.ERPBusiness
 {
@@ -20,7 +24,22 @@ namespace AlgorithmatENM.ERP.ERPBusiness
         {
             _MODb = new MODb(objDr);
         }
-
+        public MOBiz(int intID)
+        {
+            if (intID == 0)
+                _MODb = new MODb();
+            else
+            {
+                _MODb = new MODb() { ID=intID};
+                DataTable dtTemp = _MODb.Search();
+                if (dtTemp.Rows.Count > 0)
+                {
+                    _MODb = new MODb(dtTemp.Rows[0]);
+                }
+                else
+                    _MODb = new MODb();
+            }
+        }
         #endregion
         #region Private Data
         MODb _MODb;
@@ -61,10 +80,10 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             set => _MODb.Responsible = value;
             get => _MODb.Responsible;
         }
-        public int Status
+        public MOStatus Status
         {
-            set => _MODb.Status = value;
-            get => _MODb.Status;
+            set => _MODb.Status = (int)value;
+            get => (MOStatus)_MODb.Status;
         }
         public DateTime StatusTime
         {
@@ -93,7 +112,65 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             set => _MODb.ProductName = value;
             get => _MODb.ProductName;
         }
+        MOComponentCol _ComponantCol;
+        public MOComponentCol ComponentCol { get 
+            {
+                if(_ComponantCol == null)
+                    _ComponantCol= new MOComponentCol(true);
+                return _ComponantCol;
+            }
+            set => _ComponantCol = value; }
+        MOComponentCol _ByproductCol;
+        public MOComponentCol ByproductCol
+        {
+            get
+            {
+                if (_ByproductCol == null)
+                    _ByproductCol = new MOComponentCol(true);
+                return _ByproductCol;
+            }
+            set => _ByproductCol = value;
+        }
+
+        WorkOrderCol _WorkOrderCol;
+        public WorkOrderCol WorkOrderCol
+        {
+            set=>_WorkOrderCol = value;
+            get
+            {
+                if (_WorkOrderCol == null)
+                    _WorkOrderCol = new WorkOrderCol(true);
+
+                return _WorkOrderCol;
+            }
+        }
+        BufferMeasureCol _MeasureCol;
+        public BufferMeasureCol MeasureCol
+        {
+            set => _MeasureCol = value;
+            get
+            {
+                if(_MeasureCol == null) 
+                    _MeasureCol = new BufferMeasureCol(true);
+                return _MeasureCol;
+            }
+        }
+
+
+        BufferCol _BufferCol;
+        public BufferCol BufferCol { set => _BufferCol = value;
+
+            get
+            {
+                if(_BufferCol== null)
+                    _BufferCol = new BufferCol(true);
+                return _BufferCol;
+            }
+        
+        }
+
         public static int MOEditStatus = 2320;
+
 
         #endregion
         #region Private Method
@@ -106,6 +183,9 @@ namespace AlgorithmatENM.ERP.ERPBusiness
         }
         public void AddUniqueRef()
         {
+            _MODb.WorkorderTable = WorkOrderCol.GetTable();
+            _MODb.ComponentTable = ComponentCol.GetTable();
+            _MODb.ByproductTable = ByproductCol.GetTable();
             _MODb.AddUniqueRef();
         }
         public void Edit()
@@ -122,6 +202,44 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             _MODb.User = intUser;
             _MODb.EditStatus();
             
+        }
+       public void SetMeasureCol()
+        {
+            //_MeasureCol = new BufferMeasureCol(true);
+            BufferMeasureDb objDb = new BufferMeasureDb() { MO =ID};
+            DataTable dtTemp = objDb.Search();
+           // BufferMeasureBiz objMeasure;
+            Hashtable hsBuffer = new Hashtable();
+            BufferBiz objBiz = new BufferBiz();
+            BufferMeasureCol objMeasureCol = new BufferMeasureCol();
+            foreach (DataRow objDr in dtTemp.Rows)
+            { 
+            objMeasureCol.Add(new BufferMeasureBiz(objDr));
+            }
+            objMeasureCol = objMeasureCol.GetColWithComposition();
+                foreach (BufferMeasureBiz objMeasure in objMeasureCol) 
+            {
+                //objMeasure = new BufferMeasureBiz(objDr);
+                objBiz = objMeasure.BufferBiz;
+                if (hsBuffer[objBiz.ID.ToString()]==null)
+                {
+                    objBiz.MeasurementCol.Add(objMeasure);
+                    hsBuffer.Add(objBiz.ID.ToString(), objBiz);
+
+                }
+                else
+                {
+                    
+                    objBiz = (BufferBiz)hsBuffer[objBiz.ID.ToString()];
+                    objBiz.MeasurementCol.Add(objMeasure);
+                }
+                BufferCol.Add(objBiz);
+            }
+
+        }
+        public void EditMOStatusChanged()
+        {
+            _MODb.EditStatusChangedStatus();
         }
         #endregion
     }

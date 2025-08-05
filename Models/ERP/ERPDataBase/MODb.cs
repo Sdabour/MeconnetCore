@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using SharpVision.SystemBase;
+using System.ComponentModel;
 namespace AlgorithmatENM.ERP.ERPDataBase
 {
     public class MODb
@@ -107,7 +108,36 @@ namespace AlgorithmatENM.ERP.ERPDataBase
         public int User
         {
             set => _User=value;
+            get
+                { 
+                return _User==0?SysData.CurrentUser.ID:_User; 
+            }
         }
+        bool _IsDateRange;
+        public bool IsDateRange { set=>_IsDateRange= value; }
+        DateTime _DateStart;
+        public DateTime DateStart {  set => _DateStart= value; }
+        DateTime _DateEnd;
+        public DateTime DateEnd {  set => _DateEnd= value; }
+        int _ChangedStatus;
+        public int ChangedStatus {  set => _ChangedStatus= value; }
+
+        int _StatusChangedStatus;
+        public int StatusChangedStatus { set => _StatusChangedStatus = value; }
+        string _BufferIDs;
+        public string BufferIDs { set => _BufferIDs= value; }
+
+        string _IDs;
+        public string IDs { set=> _IDs= value; }
+
+        DataTable _ComponentTable;
+        public DataTable ComponentTable { set => _ComponentTable = value; }
+        DataTable _ByproductTable;
+        public DataTable ByproductTable { set => _ByproductTable = value; }
+        DataTable _WorkorderTable;
+        public DataTable WorkorderTable { set => _WorkorderTable = value; }
+
+
         public string AddStr
         {
             get
@@ -117,7 +147,7 @@ namespace AlgorithmatENM.ERP.ERPDataBase
             }
         }
 
-        public string AddUniqueRefStr
+        public string AddUniqueRefStr1
         {
             get
             {
@@ -130,6 +160,28 @@ WHERE  (MORef = '"+_Ref+"') ";
                 return Returned;
             }
         }
+
+        public string AddUniqueRefStr
+        {
+            get
+            {
+                string Returned = @"
+declare @ID int;
+declare @New int;
+set @New = 0;
+ set @ID = (select top 1 MOID from ERPMO where MORef='" + _Ref + @"');
+if @ID > 0 goto EndLine;
+
+insert into ERPMO (MORef,MODate,MOStartTime,MODesc,MOQuantity,MOResponsible,MOResponsibleName,MOStatus,MOStatusTime,MOUserStarted,MOUserStartedName, MOBOM, MOBOMName, MOProduct,MOProductName,UsrIns,TimIns) 
+ select '" + Ref + "' as Ref1," + (Date.ToOADate() - 2).ToString() + " as Date1," + (StartTime.ToOADate() - 2).ToString() + " as StartTime1,'" + Desc + "' as Desc1," + Quantity + " as Quantity1," + Responsible + " as Reponsible1,'" + _ResponsibleName + "' as ResponsibleName1," + Status + " as Status1," + (StatusTime.ToOADate() - 2).ToString() + " as SttausTime1," + _UserStarted + " as UserStarted1,'" + _UserStartedName + "' as UserName1," + _BOM + " as Bom1,'" + _BOMName + "' as BONname1," + _Product + " as Product1,'" + _ProductName + "' as ProductName1," + User + @" as UserIns1,GetDate()  as TimIns1 
+   where not exists (select MOID from ERPMO where MORef = '" + _Ref + @"')
+       set @New=1;
+   set @ID = (select @@IDENTITY as NewID);
+  Endline: select @New as IsNew,@ID as MOID ";
+                return Returned;
+            }
+        }
+
         public string EditStr
         {
             get
@@ -145,6 +197,7 @@ WHERE  (MORef = '"+_Ref+"') ";
                 return Returned;
             }
         }
+
         public string DeleteStr
         {
             get
@@ -223,14 +276,52 @@ WHERE  (MORef = '"+_Ref+"') ";
         public void AddUniqueRef()
         {
             string strSql = AddUniqueRefStr;
-           object objTemp=  SysData.SharpVisionBaseDb.ReturnScalar(strSql);
-            if(objTemp != null)
-                int.TryParse(objTemp.ToString(),out _ID);
+            DataTable dtTemp = SysData.SharpVisionBaseDb.ReturnDatatable(strSql);
+            bool blIsNew = false;
+            if (dtTemp.Rows.Count > 0) {
+                int.TryParse(dtTemp.Rows[0]["MOID"].ToString(), out _ID);
+                if (dtTemp.Rows[0]["IsNew"].ToString() == "1")
+                    blIsNew = true;
+
+            }
+            //if(objTemp != null)
+            //    int.TryParse(objTemp.ToString(),out _ID);
+            if (!blIsNew)
+                return;
+            List<string> lstWorkOrder = new List<string>();
+            WorkOrderDb objWorkOrder;
+            foreach (DataRow objDr in _WorkorderTable.Rows) {
+                objWorkOrder = new WorkOrderDb(objDr);
+                objWorkOrder.MO = _ID;
+                lstWorkOrder.Add(objWorkOrder.AddStr);
+            }
+            SysData.SharpVisionBaseDb.ExecuteNonQuery(lstWorkOrder);
+            MOComponentDb objProduct;
+            List<string> lstComponent = new List<string>();
+            foreach (DataRow objDr in _ComponentTable.Rows)
+            {
+                objProduct = new MOComponentDb(objDr);
+                objProduct.MO = _ID;
+                lstComponent.Add(objProduct.AddStr);
+
+            }
+            SysData.SharpVisionBaseDb.ExecuteNonQuery(lstComponent);
+            List<string>  lstProduct = new List<string>();
+            foreach (DataRow objDr in _ByproductTable.Rows)
+            {
+                objProduct = new MOComponentDb(objDr);
+                objProduct.MO = _ID;
+                lstProduct.Add(objProduct.AddByproductStr);
+
+            }
+            SysData.SharpVisionBaseDb.ExecuteNonQuery(lstProduct);
+            InsertMOStatus();
         }
         public void Edit()
         {
             string strSql = EditStr;
             SysData.SharpVisionBaseDb.ExecuteNonQuery(strSql);
+
         }
         public void Delete()
         {
@@ -240,21 +331,74 @@ WHERE  (MORef = '"+_Ref+"') ";
         public DataTable Search()
         {
             string strSql = SearchStr + " where Dis is null ";
+            if (_ID != 0)
+            {
+                strSql += " and ERPMO.MOID="+_ID;
+            }
             if(_StatusStr != null&&_StatusStr!= "")
             {
                 strSql += " and ERPMO.MOStatus in("+_StatusStr+") ";
             }
-
+            if(_IsDateRange)
+            {
+                strSql += " and ERPMO.MODate between "+(_DateStart.Date.ToOADate()-2) +" and " + (_DateEnd.Date.ToOADate()-2);
+            }
+            if (_ChangedStatus != 0)
+                strSql += " and ERPMO.MOChanged=1 ";
+            if (_StatusChangedStatus != 0)
+                strSql += " and ERPMO.MOStatusChanged=1 ";
             return SysData.SharpVisionBaseDb.ReturnDatatable(strSql);
         }
         public void EditStatus()
         {
             if (_ID == 0)
                 return;
-            string strSql = "update ERPMO set MOStatus ="+_Status 
-                +@" where ERPMO.MOID="+_ID;
+            string strSql = "";
+           
+            strSql = " update ERPMO set MOStatus ="+_Status + @",MOStatusChanged=1"
+                + @"  where ERPMO.MOID="+_ID;
+
             SysData.SharpVisionBaseDb.ExecuteNonQuery(strSql);
 
+            InsertMOStatus();
+
+        }
+        void InsertMOStatus()
+        {
+            string strSql = "execute InsertMOStatus "+_ID+","+_Status +","+User;
+            SysData.SharpVisionBaseDb.ExecuteNonQuery(strSql);
+
+            return;
+             
+        }
+        public void EditChangedStatus()
+        {
+            if (_IDs == null||_IDs=="")
+                return;
+            if (_ChangedStatus != 0)
+                _ChangedStatus = 1;
+            string strSql = "update ERPMO set MOChanged =" + _ChangedStatus
+                + @" where ERPMO.MOID in(" + _IDs+")";
+            SysData.SharpVisionBaseDb.ExecuteNonQuery(strSql);
+
+
+        }
+        public void EditStatusChangedStatus()
+        {
+            if (_IDs == null || _IDs == "")
+                return;
+            if (_ChangedStatus != 0)
+                _ChangedStatus = 1;
+            string strSql = "update ERPMO set MOStatusChanged =0 "
+                + @" where ERPMO.MOID in(" + _IDs + ")";
+            SysData.SharpVisionBaseDb.ExecuteNonQuery(strSql);
+
+
+        }
+        public static void InsertLog()
+        {
+            string strSql = "insert into ERPMOLog (LOGDate) values (GetDate())";
+            SysData.SharpVisionBaseDb.ExecuteNonQuery(strSql);
         }
         #endregion
     }

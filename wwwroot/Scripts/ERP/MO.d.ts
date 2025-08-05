@@ -2,6 +2,7 @@ declare class MO {
     ID: number;
     Ref: string;
     Date: Date;
+    DateStr: string;
     StartTime: Date;
     StartTimeStr: string;
     Desc: string;
@@ -11,6 +12,7 @@ declare class MO {
     Status: number;
     StatusStr: string;
     StatusTime: Date;
+    StatusTimeStr: string;
     UserStarted: number;
     UserStartedName: string;
     BOM: number;
@@ -25,4 +27,5 @@ declare function AddMoListByRef(vrMO: MO): void;
 declare function EditMOStatusByID(vrMO: MO): void;
 declare function ShowMOLoginModal(vrMo: number, vrStatus: number): void;
 declare function FillMOLstTable(): void;
+declare function FillMOTable(arrMO: MO[]): void;
 declare function ShowMODisplayModal(): void;

@@ -114,7 +114,9 @@
                     </div>
 
                 </div>
+
                 <br />
+             
                 <div class="form-row">
                     @{
                         List<SerializableBiz> objGroupLst = GroupCol.CacheGroupCol.Cast<GroupBiz>().Select(x => new SerializableBiz() { ID = x.ID, Name = x.NameA }).ToList();
@@ -135,7 +137,14 @@
                         }
                         </select>
                     </div>
+                </div><br />
+            <div class="form-row">
+                <div class="col-2">Token</div>
+                <div class="col-6">
+                    <textarea class="form-control"  id="txtToken" placeholder="User Token">
+ </textarea>
                 </div>
+            </div>
             </div>
         </div>
 

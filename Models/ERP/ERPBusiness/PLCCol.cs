@@ -22,9 +22,10 @@ namespace AlgorithmatENM.ERP.ERPBusiness
         {
             if (blIsEmbty)
                 return;
-            PLCBiz objBiz = new PLCBiz();
-            objBiz.ID = 0;
 
+            PLCBiz objBiz = new PLCBiz() { Desc="Not Specified"};
+            objBiz.ID = 0;
+            Add(objBiz);
             PLCDb objDb = new PLCDb();
 
             DataTable dtTemp = objDb.Search();

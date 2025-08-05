@@ -6,6 +6,7 @@ using System.Data;
 using System.Collections;
 using AlgorithmatENM.ERP.ERPDataBase;
 using SharpVision.SystemBase;
+using AlgorithmatENMMVCCore.Controllers;
 namespace AlgorithmatENM.ERP.ERPBusiness
 {
     public class ProductCol:CollectionBase
@@ -45,6 +46,79 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             {
                 return (ProductBiz)this.List[intIndex];
             }
+        }
+        static ProductCol _CacheProductCol;
+        public static ProductCol CacheProductCol { get
+            {
+                if(_CacheProductCol == null)
+                {
+                    _CacheProductCol = new ProductCol(false);
+                }
+                return _CacheProductCol;
+            } }
+        static Hashtable _RefProductHs;
+        public static Hashtable RefProductHs
+        {
+            get
+            {
+                if (_RefProductHs == null)
+                {
+                    _RefProductHs = new Hashtable();
+                    ProductCol objCol = CacheProductCol;
+                    foreach (ProductBiz objBiz in objCol)
+                    {
+                        if (_RefProductHs[SysUtility.ReplaceStringComp(objBiz.Code)] == null)
+                        {
+                            _RefProductHs.Add(SysUtility.ReplaceStringComp(objBiz.Code), objBiz);
+                        }
+                    }
+
+                }
+                return _RefProductHs;
+            }
+        }
+        public static ProductBiz GetEqualProductByRef(string strRef)
+        {
+            strRef = SysUtility.ReplaceStringComp(strRef);
+            ProductBiz Returned = new ProductBiz();
+            if (RefProductHs[strRef] != null)
+            {
+                Returned = ((ProductBiz)RefProductHs[strRef]);
+            }
+            return Returned;
+        }
+        static Hashtable _IDProductHs;
+        public static Hashtable IDProductHs
+        {
+            get
+            {
+                if (_IDProductHs == null)
+                {
+                    _IDProductHs = new Hashtable();
+                    ProductCol objCol = CacheProductCol;
+                    foreach (ProductBiz objBiz in objCol)
+                    {
+                        if (_IDProductHs[objBiz.ID.ToString()] == null)
+                        {
+                            _IDProductHs.Add(objBiz.ID.ToString(), objBiz);
+                        }
+                    }
+
+                }
+                return _IDProductHs;
+            }
+        }
+        public static SingleValue GetEqualProductByID(int intID)
+        {
+            SingleValue Returned = new SingleValue();
+            if (IDProductHs[intID.ToString()] != null)
+            {
+                Returned.name =  ((ProductBiz)IDProductHs[intID.ToString()]).NameA;
+                int intTemp = 0;
+                int.TryParse(((ProductBiz)IDProductHs[intID.ToString()]).Code, out intTemp);
+                Returned.id = intTemp;
+            }
+            return Returned;
         }
         #endregion
         #region Private Method

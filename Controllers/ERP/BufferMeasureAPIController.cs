@@ -49,7 +49,7 @@ namespace AlgorithmatNewMVC.Controllers.ENMController
             MeterMeasureSearch objSearch = new MeterMeasureSearch() { dtFrom=dtFrom,dtTo=dtTo,intMeasureType=intMeasureType,intMeter=intMeter};
             bool blIsMeasureType = objSearch.dtFrom > new DateTime(2018, 1, 1) && objSearch.dtTo >= objSearch.dtFrom;
             BufferMeasureCol objCol = new BufferMeasureCol(objSearch.intMeter, blIsMeasureType, objSearch.dtFrom, objSearch.dtTo);
-            List<MeterMeasureSimple> Returned = objCol.Cast<BufferMeasureBiz>().Select(x => x.GetSimple()).ToList();
+            List<MeterMeasureSimple> Returned = objCol.Cast<BufferMeasureBiz>().Select(x => x.GetMeterMeasureSimple()).ToList();
 
             return Returned;
         }

@@ -71,7 +71,7 @@ namespace AlgorithmatENM.ENM.ENMBiz
             return Returned;
 
         }
-        public static MeterMeasureSimple GetSimple(this BufferMeasureBiz objBiz)
+        public static MeterMeasureSimple GetMeterMeasureSimple(this BufferMeasureBiz objBiz)
         {
             MeterMeasureSimple Returned = new MeterMeasureSimple() { Date = objBiz.MeasureDate, ID = objBiz.MeasureID, MeterDesc = objBiz.BufferContent, MeterID = objBiz.BufferID, Time = objBiz.MeasureTime, Type = objBiz.BufferTypeID, TypeName = objBiz.BufferTypeNameA, Unit = "", Value = objBiz.MeasureValue, IsAccumulated = false, FirstValue = objBiz.MeasureFirstValue, MaxValue = objBiz.MeasureMaxValue, MinTime = objBiz.MeasureMinTime, MinValue = objBiz.MeasureMinValue, ProductName = objBiz.BufferContent };
             return Returned;

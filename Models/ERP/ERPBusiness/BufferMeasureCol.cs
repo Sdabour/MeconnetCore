@@ -35,7 +35,7 @@ namespace AlgorithmatENM.ERP.ERPBusiness
                 Add(objBiz);
             }
         }
-        public BufferMeasureCol(bool blIsDateRange,DateTime dtStart,DateTime dtEnd)
+        public BufferMeasureCol(bool blIsDateRange,DateTime dtStart,DateTime dtEnd,int? intBuffer=0)
         {
          
             BufferMeasureBiz objBiz = new BufferMeasureBiz();
@@ -44,6 +44,7 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             objDb.IsDateRange = blIsDateRange;
             objDb.StartDate = dtStart;
             objDb.EndDate = dtEnd;
+            objDb.BufferID = intBuffer.GetValueOrDefault();
             DataTable dtTemp = objDb.Search();
 
 
@@ -142,10 +143,10 @@ namespace AlgorithmatENM.ERP.ERPBusiness
                 objDr["BufferCenterCode"] = objBiz.BufferCenterCode;
                 objDr["BufferCenterNameA"] = objBiz.BufferCenterNameA;
                 objDr["BufferCenterNameE"] = objBiz.BufferCenterNameE;
-                objDr["BufferMeasurementID"] = objBiz.mentID;
-                objDr["BufferMeasurementCode"] = objBiz.mentCode;
-                objDr["BufferMeasurementNameA"] = objBiz.mentNameA;
-                objDr["BufferMeasurementNameE"] = objBiz.mentNameE;
+                objDr["BufferMeasurementID"] = objBiz.MeasurementID;
+                objDr["BufferMeasurementCode"] = objBiz.MeasurementCode;
+                objDr["BufferMeasurementNameA"] = objBiz.MeasurementNameA;
+                objDr["BufferMeasurementNameE"] = objBiz.MeasurementNameE;
                 Returned.Rows.Add(objDr);
             }
             return Returned;
@@ -196,6 +197,7 @@ namespace AlgorithmatENM.ERP.ERPBusiness
             List<BufferMeasureBiz> lstComposedMeasure = this.Cast<BufferMeasureBiz>().Where(x => x.BufferProductIsComposed).ToList();
             Hashtable hsTemp = new Hashtable();
             string strComposedProductIDs = "";
+
             foreach(BufferMeasureBiz objBiz in lstComposedMeasure)
             {
                 if (objBiz.BufferProductID == 0|| hsTemp[objBiz.BufferProductID.ToString()]!= null)

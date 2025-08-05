@@ -92,6 +92,9 @@ namespace AlgorithmatENM.ERP.ERPBusiness
         {
             _ProductDb.Delete();
         }
+       public ProductSimple GetSimple() { 
+        return new ProductSimple() { Code = Code, ID = ID, InternalReference = InternalReference, IsComposed = IsComposed, IsRawMaterial = IsRawMaterial, MeasurementUnit=MeasurementUnit,NameA=NameA,NameE=NameE };
+        }
         #endregion
     }
 }

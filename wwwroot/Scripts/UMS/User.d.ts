@@ -2,6 +2,7 @@ declare class User {
     ID: number;
     Name: string;
     Password: string;
+    Token: string;
     FullName: string;
     EmployeeID: number;
     EmployeeCode: string;

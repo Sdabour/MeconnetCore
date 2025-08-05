@@ -108,7 +108,8 @@ namespace SharpVision.UMS.UMSBusiness
 
         } = new List<FunctionInstantSimple>();
         public bool ChangePass { set; get; }
-        public string OldPass { set; get; } = "";    
+        public string OldPass { set; get; } = "";
+        public string Token { set; get; } = "";
         public static string CurrentUserIDKey
         { get => "CurrentUser"; }
         public static UserSimple CurrentUser
@@ -117,7 +118,7 @@ namespace SharpVision.UMS.UMSBusiness
             get
             {
                 UserSimple Returned = new UserSimple();
-                if (AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString(CurrentUserIDKey) != null)
+                if (AlgorithmatENMMVCCore.WebHelpers.HttpContext!= null&&AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString(CurrentUserIDKey) != null)
                 {
                     string strTemp = AlgorithmatENMMVCCore.WebHelpers.HttpContext.Session.GetString(CurrentUserIDKey);
                     Returned = Newtonsoft.Json.JsonConvert.DeserializeObject<UserSimple>(strTemp);

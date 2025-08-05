@@ -1,7 +1,10 @@
+using AlgorithmatENM.ERP.ERPBusiness;
+using AlgorithmatENM.ERP.ERPDataBase;
+using SharpVision.SystemBase;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
+using System.Text;
 
 namespace BaseDataBase
 {
@@ -111,6 +114,11 @@ namespace BaseDataBase
         public double MaxValue;
         public DateTime MinTime;
         #endregion
+
+
+
+      
+
 
 
 

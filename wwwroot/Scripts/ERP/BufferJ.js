@@ -1,4 +1,5 @@
-﻿
+﻿ 
+
 function FillBufferGroup() {
 
 
@@ -224,4 +225,83 @@ function SetMorisBar() {
     //        });
     //    } catch (a) { alert(a); }
     //}
+}
+function FillBufferLst() {
+    var vrBufferType = 0;
+    if (document.getElementById("cmbBufferType") != null) {
+        vrBufferType = document.getElementById("cmbBufferType").value;
+    }
+    var vrPlc = 0;
+    if (document.getElementById("cmbPlc") != null) {
+        vrPlc = document.getElementById("cmbPlc").value;
+    }
+    var vrBufferCode = document.getElementById("txtBufferCode").value;
+    if (vrBufferCode == "") {
+        vrBufferCode = "EMBTY";
+    }
+    var vrServiceUrl = "../api/BufferApi";
+    $.ajax({
+        type: 'GET',
+        url: vrServiceUrl,
+        contentType: 'application/json; charset=utf-8',
+
+        dataType: 'json',
+        data: {'intBufferType':vrBufferType, 'strCode':vrBufferCode,'intPlc':vrPlc}
+        ,
+        success: successFunc,
+        error: errorFunc
+    });
+
+
+
+    function successFunc(data, status) {
+        FillBufferTable(data);
+    }
+    function errorFunc(jqXHR, textStatus, errorThrown) {
+        alert("ErrorFunct :" + errorThrown);
+        // setTimeout(FillServiceGroup, 10000);
+    } 
+
+}
+function FillBufferMeasure() {
+    var vrIsDateRange = 0;
+    if (document.getElementById("chkIsDateRange") != null) {
+        vrIsDateRange = document.getElementById("chkIsDateRange").checked ? 1 : 0;
+    }
+    var vrStart = new Date().toDateString();
+    if (vrIsDateRange ==1 && document.getElementById("dtStart") != null) {
+        vrStart = document.getElementById("dtStart").value;
+    }
+    var vrEnd = new Date().toDateString();
+    if (vrIsDateRange == 1 && document.getElementById("dtEnd") != null) {
+        vrEnd = document.getElementById("dtEnd").value;
+    }
+    var vrBufferID = 0;
+    if (document.getElementById("lblCurrentBuffer") != null && document.getElementById("lblCurrentBuffer").value != "") {
+        var vrBuffer = JSON.parse(document.getElementById("lblCurrentBuffer").value);
+        vrBufferID = vrBuffer.ID;
+    }
+    var vrServiceUrl = "../api/BufferMeasureSearchAPI";
+    $.ajax({
+        type: 'GET',
+        url: vrServiceUrl,
+        contentType: 'application/json; charset=utf-8',
+
+        dataType: 'json',
+        data: { intBuffer:vrBufferID, intIsDateRange:vrIsDateRange,dtStart:vrStart,dtEnd:vrEnd }
+        ,
+        success: successFunc,
+        error: errorFunc
+    });
+
+
+
+    function successFunc(data, status) {
+        FillBufferMeasureTable(data);
+    }
+    function errorFunc(jqXHR, textStatus, errorThrown) {
+        alert("ErrorFunct :" + errorThrown);
+        // setTimeout(FillServiceGroup, 10000);
+    }
+
 }

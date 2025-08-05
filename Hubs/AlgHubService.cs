@@ -46,18 +46,16 @@ namespace AlgorithmatENMMVCCore.Hubs
                 {
                     dtTemp = objPlcCol.SaveS7BufferRead("");
                     lstIDValue = dtTemp.Rows.Cast<DataRow>().Select(objDr => new SingleIDValue() { ID = int.Parse(objDr["BufferID"].ToString()), Value =double.Parse( objDr["MeasureValue"].ToString()).ToString("0.000") }).ToList();
-                    //objCol = new BufferMeasureCol(true, DateTime.Now, DateTime.Now);
-                    //objMeasureCol = objCol.Cast<BufferMeasureBiz>().ToList().GetMeasurementLst();
-                    //lstIDValue = objCol.Cast<BufferMeasureBiz>().Select(x => new SingleIDValue() { ID = x.BufferID, Value = x.MeasureValue.ToString() }).ToList();
+                  
                     if (lstIDValue.Count == 0)
                     {
 
                     }
                     // Your continuous logic here
-                    strMsg = System.Text.Json.JsonSerializer.Serialize(lstIDValue);// $"Update at {DateTime.Now:HH:mm:ss}-Index-{intIndex.ToString()}";
+                    strMsg = System.Text.Json.JsonSerializer.Serialize(lstIDValue); 
 
                     // Push to all connected clients
-                    //  await _hubContext.Clients.All.SendAsync("ReceiveUpdate", message);
+                    
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Server:" + AlgHubServiceMessageType.BufV.ToString(), strMsg);
                     strTempMsg = lstIDValue.Count.ToString()  +" of data has been sent ";
                    _logger.LogInformation("Sent update: {Message}", strTempMsg);
@@ -69,7 +67,7 @@ namespace AlgorithmatENMMVCCore.Hubs
                 catch (OperationCanceledException)
                 {
                     // Service is stopping
-                    break;
+                    await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
                 }
                 catch (Exception ex)
                 {

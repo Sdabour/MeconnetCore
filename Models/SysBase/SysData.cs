@@ -422,6 +422,188 @@ namespace SharpVision.SystemBase
                 return _SharpVisionBaseDb;
             }
         }
+
+        public static string  SigningKey
+        {
+           
+            get
+
+            {
+                
+                    var builder = new ConfigurationBuilder()
+              .SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("appsettings.json");
+
+                    IConfigurationRoot Configuration = builder.Build();
+                    var SigningKey = Configuration["SecurityKey:SigningKey"];
+                    string strTemp = SigningKey.ToString();
+                
+                    
+                
+                return strTemp;
+            }
+        }
+        public static string OnlineToken
+        {
+
+            get
+
+            {
+
+                var builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json");
+
+                IConfigurationRoot Configuration = builder.Build();
+                var SigningKey = Configuration["SecurityKey:OnlineToken"];
+                string strTemp = SigningKey.ToString();
+
+
+
+                return strTemp;
+            }
+        }
+        public static string APIKey
+        {
+
+            get
+
+            {
+
+                var builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json");
+
+                IConfigurationRoot Configuration = builder.Build();
+                var SigningKey = Configuration["SecurityKey:APIKey"];
+                string strTemp = SigningKey.ToString();
+
+
+
+                return strTemp;
+            }
+        }
+        public static bool Online
+        {
+
+            get
+
+            {
+
+                var builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json");
+
+                IConfigurationRoot Configuration = builder.Build();
+                var Status = Configuration["ServerData:Online"];
+                string strTemp = Status.ToString();
+
+
+
+                return strTemp=="1";
+            }
+        }
+        public static bool Onsite
+        {
+
+            get
+
+            {
+
+                var builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json");
+
+                IConfigurationRoot Configuration = builder.Build();
+                var Status = Configuration["ServerData:Onsite"];
+                string strTemp = Status.ToString();
+
+
+
+                return strTemp == "1";
+            }
+        }
+        public static bool BringOnlineData
+        {
+
+            get
+
+            {
+
+                var builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json");
+
+                IConfigurationRoot Configuration = builder.Build();
+                var Status = Configuration["ServerData:RunBringOnlineData"];
+                string strTemp = Status.ToString();
+
+
+
+                return strTemp == "1";
+            }
+        }
+        public static bool UploadData
+        {
+
+            get
+
+            {
+
+                var builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json");
+
+                IConfigurationRoot Configuration = builder.Build();
+                var Status = Configuration["ServerData:UploadData"];
+                string strTemp = Status.ToString();
+
+
+
+                return strTemp == "1";
+            }
+        }
+        public static string ForeignURL
+        {
+
+            get
+
+            {
+
+                var builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json");
+
+                IConfigurationRoot Configuration = builder.Build();
+                var Status = Configuration["ServerData:ForeignURL"];
+                string strTemp = Status.ToString();
+
+
+
+                return strTemp ;
+            }
+        }
+        public static string ODOOURL
+        {
+
+            get
+
+            {
+
+                var builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json");
+
+                IConfigurationRoot Configuration = builder.Build();
+                var Status = Configuration["ServerData:ODOOURL"];
+                string strTemp = Status.ToString();
+
+
+
+                return strTemp;
+            }
+        }
+        public static string MOUpdateStatusMutex { get; } = "MOUpdateStatusMutex";
         static BaseDb _DestDb;
 
         public static BaseDb DestDb

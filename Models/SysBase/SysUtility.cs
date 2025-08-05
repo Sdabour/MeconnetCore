@@ -1,14 +1,19 @@
+using Microsoft.IdentityModel.Tokens;
+using SharpVision.UMS.UMSBusiness;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
-//using Microsoft.Office.Interop.Excel;
-using System.Reflection;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Net;
+//using Microsoft.Office.Interop.Excel;
+using System.Reflection;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Json;
 namespace SharpVision.SystemBase
 {
-     
+
 
     public enum ApproximateType
     {
@@ -40,11 +45,11 @@ namespace SharpVision.SystemBase
             string strReturned = "";
             for (int intIndex = Returned.Length - 1; intIndex >= 0; intIndex--)
             {
-                if(strReturned != "")
+                if (strReturned != "")
                     strReturned = strReturned + " ";
-                strReturned = strReturned + arrTemp[Returned.Length -1 - intIndex];
+                strReturned = strReturned + arrTemp[Returned.Length - 1 - intIndex];
                 Returned[intIndex] = strReturned;
- 
+
             }
             return Returned;
 
@@ -55,7 +60,7 @@ namespace SharpVision.SystemBase
             {
                 return false;
             }
-             return true;
+            return true;
         }
         public static bool CheckForEnglishAndNumeric(int intAscii)
         {
@@ -73,7 +78,7 @@ namespace SharpVision.SystemBase
             }
             return true;
         }
-        public static bool CheckForNumeric(int intAscii,string strText)
+        public static bool CheckForNumeric(int intAscii, string strText)
         {
             if (intAscii != 8 && intAscii != 46 && !(intAscii <= 57 && intAscii >= 48) && intAscii != 45)
             {
@@ -98,7 +103,7 @@ namespace SharpVision.SystemBase
             }
             return Returned;
         }
-        public static double Approximate(double dblValue, double dblApprox,ApproximateType objApproximateType)
+        public static double Approximate(double dblValue, double dblApprox, ApproximateType objApproximateType)
         {
             double Returned = dblValue;
             if (dblApprox != 0)
@@ -163,9 +168,9 @@ namespace SharpVision.SystemBase
             try
             {
                 Str = strName;
-                Str = Str.Trim();                
+                Str = Str.Trim();
                 Str = Str.Replace("  ", " ");
-                Str = Str.Replace(" ", "");                
+                Str = Str.Replace(" ", "");
             }
             catch (Exception Ex)
             {
@@ -173,20 +178,20 @@ namespace SharpVision.SystemBase
             }
             return Str;
         }
-        public static List<string> GetStringArr(System.Data.DataTable dtTemp,string strFieldName,int intCount)
+        public static List<string> GetStringArr(System.Data.DataTable dtTemp, string strFieldName, int intCount)
         {
 
             List<string> Returned = new List<string>();
             int intIndex = 0;
-           
+
             Returned.Add("");
-        
-             DataRow[] arrDr = dtTemp.Select("", strFieldName);
+
+            DataRow[] arrDr = dtTemp.Select("", strFieldName);
             string strSelected = "";
             foreach (DataRow objDr in arrDr)
             {
                 if (strSelected != objDr[strFieldName].ToString() &&
-                    objDr[strFieldName].ToString() != "" && objDr[strFieldName].ToString()!= "0")
+                    objDr[strFieldName].ToString() != "" && objDr[strFieldName].ToString() != "0")
                 {
                     strSelected = objDr[strFieldName].ToString();
                     intIndex++;
@@ -207,9 +212,9 @@ namespace SharpVision.SystemBase
                 Returned.RemoveAt(Returned.Count - 1);
 
             return Returned;
- 
+
         }
-        public static List<string> GetStringArr(string strNative,char chrSeparator, int intCount)
+        public static List<string> GetStringArr(string strNative, char chrSeparator, int intCount)
         {
 
             List<string> Returned = new List<string>();
@@ -226,13 +231,13 @@ namespace SharpVision.SystemBase
             foreach (string strTemp in arrStr)
             {
                 if (strSelected != strTemp &&
-                   strTemp != "" &&strTemp != "0")
+                   strTemp != "" && strTemp != "0")
                 {
-                    strSelected =strTemp;
+                    strSelected = strTemp;
                     intIndex++;
                     if (Returned[Returned.Count - 1] != "")
                         Returned[Returned.Count - 1] += ",";
-                    Returned[Returned.Count - 1] +=strTemp;
+                    Returned[Returned.Count - 1] += strTemp;
                     if (intIndex > intCount)
                     {
                         Returned.Add("");
@@ -253,44 +258,44 @@ namespace SharpVision.SystemBase
         {
             System.Collections.Hashtable hsTemp = new System.Collections.Hashtable();
             List<string> Returned = new List<string>();
-            if (dtTemp == null || strFieldName==null || strFieldName == "" )
-                return Returned ;
+            if (dtTemp == null || strFieldName == null || strFieldName == "")
+                return Returned;
             int intIndex = 0;
 
             Returned.Add("");
-            string [] arrFeild = strFieldName.Split(",".ToCharArray());
-           DataRow[] arrDr ;//= dtTemp.Select("", strFieldName);
+            string[] arrFeild = strFieldName.Split(",".ToCharArray());
+            DataRow[] arrDr;//= dtTemp.Select("", strFieldName);
             string strSelected = "";
-      
-               // arrDr = dtTemp.Select("", strTempField);
-                strSelected = "";
-                foreach (DataRow objDr in dtTemp.Rows)
+
+            // arrDr = dtTemp.Select("", strTempField);
+            strSelected = "";
+            foreach (DataRow objDr in dtTemp.Rows)
+            {
+                foreach (string strTempField in arrFeild)
                 {
-                    foreach (string strTempField in arrFeild)
+                    if (objDr[strTempField].ToString() == "")
+                        continue;
+                    if (hsTemp[objDr[strTempField].ToString()] == null)
                     {
-                        if (objDr[strTempField].ToString() == "")
-                            continue;
-                        if (hsTemp[objDr[strTempField].ToString()]==null)
+                        hsTemp.Add(objDr[strTempField].ToString(), objDr[strTempField].ToString());
+                        //   strSelected = objDr[strFieldName].ToString();
+                        intIndex++;
+
+                        if (Returned[Returned.Count - 1] != "")
+                            Returned[Returned.Count - 1] += ",";
+                        Returned[Returned.Count - 1] += objDr[strTempField].ToString();
+                        if (intIndex > intCount)
                         {
-                            hsTemp.Add(objDr[strTempField].ToString(), objDr[strTempField].ToString());
-                         //   strSelected = objDr[strFieldName].ToString();
-                            intIndex++;
+                            Returned.Add("");
+                            intIndex = 0;
 
-                            if (Returned[Returned.Count - 1] != "")
-                                Returned[Returned.Count - 1] += ",";
-                            Returned[Returned.Count - 1] += objDr[strTempField].ToString();
-                            if (intIndex > intCount)
-                            {
-                                Returned.Add("");
-                                intIndex = 0;
-
-                            }
                         }
                     }
-
-
                 }
-         
+
+
+            }
+
             if (Returned.Count > 0 && Returned[Returned.Count - 1] == "")
                 Returned.RemoveAt(Returned.Count - 1);
 
@@ -354,7 +359,7 @@ namespace SharpVision.SystemBase
         }
         public static int GetStringIndex(string strParent, string strChild, char chrSeparetor)
         {
-            char [] arrChr = new char[1];
+            char[] arrChr = new char[1];
             arrChr[0] = chrSeparetor;
             string[] arrStr = strParent.Split(arrChr);
             for (int intIndex = 0; intIndex < arrStr.Length; intIndex++)
@@ -365,7 +370,7 @@ namespace SharpVision.SystemBase
             return -1;
 
         }
-        public static string  RemoveSubString(string strParent, string strChild, char chrSeparetor)
+        public static string RemoveSubString(string strParent, string strChild, char chrSeparetor)
         {
             string Returned = "";
             char[] arrChr = new char[1];
@@ -389,13 +394,13 @@ namespace SharpVision.SystemBase
             string strTemp = "";
             System.Data.DataTable dtTemp = new System.Data.DataTable(strTableName);
             dtTemp.Columns.Add(new DataColumn(strColumnName));
-             strTemp = strData;
+            strTemp = strData;
             string strSubString = "";
             int intIndex = 0;
             int intLen = intMaxLength;
 
             double dblArrLen = (double)strData.Length / (double)intMaxLength;
-            int intArrLen =(int) Approximate(dblArrLen, 1, ApproximateType.Up);
+            int intArrLen = (int)Approximate(dblArrLen, 1, ApproximateType.Up);
 
             string[] arrStr = new string[intArrLen];
             while (strTemp != "")
@@ -411,7 +416,7 @@ namespace SharpVision.SystemBase
             }
             DataRow objDr = dtTemp.NewRow();
 
-            foreach (string strTemp1  in arrStr)
+            foreach (string strTemp1 in arrStr)
             {
                 objDr = dtTemp.NewRow();
                 objDr[strColumnName] = strTemp1;
@@ -534,14 +539,14 @@ namespace SharpVision.SystemBase
                 int intStart = Returned.Length;
                 for (int intIndex = intStart; intIndex < intLength; intIndex++)
                 {
-                    Returned = "0" + Returned ;
+                    Returned = "0" + Returned;
                 }
             }
             return Returned;
         }
         public static string SetPadRight(string strNo, int intLength)
         {
-            string Returned = strNo ;
+            string Returned = strNo;
             if (Returned.Length > intLength)
                 Returned = Returned.Substring(0, intLength);
             else
@@ -549,26 +554,26 @@ namespace SharpVision.SystemBase
                 int intStart = Returned.Length;
                 for (int intIndex = intStart; intIndex < intLength; intIndex++)
                 {
-                    Returned += "0" ;
+                    Returned += "0";
                 }
             }
             return Returned;
         }
-        public static string ReverseString(string strCode,char chrSplitor)
+        public static string ReverseString(string strCode, char chrSplitor)
         {
             string Returned = "";
 
             string[] arrChr = strCode.Split(chrSplitor);
-      
+
             for (int intIndex = arrChr.Length - 1; intIndex >= 0; intIndex--)
             {
                 if (Returned != "")
                     Returned += chrSplitor.ToString();
-                Returned += arrChr[intIndex] ;
+                Returned += arrChr[intIndex];
             }
 
-           
-           // Returned = strCode;
+
+            // Returned = strCode;
             return Returned;
         }
         public static string GetSiteMap(List<string> arrURL)
@@ -641,7 +646,7 @@ namespace SharpVision.SystemBase
             Returned += "</tr>";
             //Returned += "</thead>";
 
-          //  Returned += "<tbody>";
+            //  Returned += "<tbody>";
             foreach (DataRow objDr in dtTemp.Rows)
             {
                 Returned += "<tr>";
@@ -662,14 +667,14 @@ namespace SharpVision.SystemBase
               "</url>";
             return Returned;
         }
-        public static bool CheckStr(this string strMain,string strSub)
+        public static bool CheckStr(this string strMain, string strSub)
         {
             bool Returned = true;
             string[] arrStr = strSub.Split("%".ToCharArray());
             bool blIsFound = true;
             foreach (string strTemp in arrStr)
             {
-                if (ReplaceStringComp( strMain.ToLower()).IndexOf(ReplaceStringComp( strTemp.ToLower())) == -1)
+                if (ReplaceStringComp(strMain.ToLower()).IndexOf(ReplaceStringComp(strTemp.ToLower())) == -1)
                     blIsFound = false;
             }
             if (!blIsFound)
@@ -703,6 +708,75 @@ namespace SharpVision.SystemBase
             objCopy.WriteToServer(dtTemp);
 
         }
+        public static Object GetToken(string strIssuer, string strAudience, UserSimple objUser,DateTime dtValidTo)
+        {
 
+
+
+
+            string strkey = SysData.SigningKey;
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(strkey));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            //Create a List of Claims, Keep claims name short    
+            var permClaims = new List<Claim>();
+            permClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+            permClaims.Add(new Claim("UserID", objUser.ID.ToString()));
+            permClaims.Add(new Claim("UserName", objUser.Name.ToString()));
+            List<int> lstFunction = objUser.FunctionLst.Select(x => x.ID).ToList();
+            //permClaims.Add(new Claim("AuthorizedFunction", JsonSerializer.Serialize(lstFunction)));
+
+            //Create Security Token object by giving required parameters    
+
+            var token = new JwtSecurityToken(strIssuer, //Issure    
+                            strAudience,  //Audience    
+                            permClaims,
+                            expires:dtValidTo,
+                            signingCredentials: credentials);
+            var jwt_token = new JwtSecurityTokenHandler().WriteToken(token);
+            //System.Web.Security.FormsAuthentication.SetAuthCookie("UserName:Milango", false);
+            return jwt_token;//new { data = jwt_token };
+        }
+        public static string GetClaimValue(string strToken, string strCalimKey)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = strToken;
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var T = 0;
+
+
+            string Returned = "Algorithmat";
+            if (tokenS.ValidTo < DateTime.Now)
+            {
+                Returned = "";
+            }
+            else if (tokenS.Claims.Where(x => x.Type == strCalimKey).ToList().Count > 0)
+            {
+                Returned = tokenS.Claims.First(claim => claim.Type == strCalimKey).Value;
+            }
+            return Returned;
+        }
+        public static string GetToken(HttpContext objContext)
+        {
+            var request = objContext.Request;
+
+            if (request.Headers.TryGetValue("Authorization", out var authHeader) == false ||
+                string.IsNullOrEmpty(authHeader) ||
+                !authHeader.ToString().StartsWith("bearer ", StringComparison.OrdinalIgnoreCase))
+            {
+                return "";
+
+            }
+            else
+            {
+                string strToken = request.Headers.Authorization.ToString();
+                return strToken;
+
+            }
+
+        }
     }
 }
